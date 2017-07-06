@@ -6,12 +6,22 @@ categories: ruby
 tags: jekyll, bundle
 ---
 
+<a href="# 概要"><h2>概要</h2></a>
+
+[Jekyll](https://jekyllrb.com/)は`_drafts`というディレクトリの中に公開する前の
+記事を置いておくことができます．しかしそこで記事を書いてローカルで動かしてみたところ，
+エラーが出て動かなかったのでメモ．
+
+### 環境
+
 ```sh
 $ ruby -v
 ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-darwin15]
 $ jekyll -v
 jekyll 3.5.0
 ```
+
+### エラー内容とやったこと
 
 ```sh
 $ jekyll serve --drafts
