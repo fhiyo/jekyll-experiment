@@ -46,15 +46,15 @@ navbar_list:
   link: /
   dropdown: &dropdown
   - name: Archives
-    link: /blog/archives.html
+    link: /blog/archives
   - name: Categories
-    link: /blog/categories.html
+    link: /blog/categories
   - name: Tags
-    link: /blog/tags.html
+    link: /blog/tags
 # - name: Project
 #   link: /project/
 - name: About
-  link: /about/index.html
+  link: /about
 
 # Configuration for bootstrap and color theme
 # `bootstrap`:
@@ -76,7 +76,7 @@ asides:
     recent_posts: true
     archive_tabs: true
     tweets: true
-    github: false
+    github: true
 
 # Configuration for pygments
 # `pygments_style`:
