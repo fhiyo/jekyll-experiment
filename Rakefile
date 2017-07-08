@@ -36,7 +36,7 @@ task :default => :preview
 desc "preview on http://localhost:4000/"
 task :preview do
 # jekyll('--pygments --auto --server')
-  jekyll('--auto --server')
+  jekyll('serve')
 end
 
 #----------------------------------------------------------------------
