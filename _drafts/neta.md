@@ -25,6 +25,15 @@ Jekyllという性的ジェネレーターを使ってブログ作ってみま�
 
 ページ内アンカー設定したいが，どうやってやるんだ？
 
+## バグ報告の環境説明はどこまで言えばいい？
+他のプログラマがそのバグを再現できるまで，というのは当たり前だと思うのだが，
+じゃあ実質どこまで言うのがよいのだろう？
+OSのバージョンと使用しているソフトウェアのバージョンだけでよい？
+ビルドバージョンは？
+`uname -mrsv`の結果も欲しい？
+
+
+
 ### Jekyllについて
 [Jekyll](https://jekyllrb.com/) 静的サイトジェネレータ．Github Pagesが
 
@@ -48,6 +57,8 @@ localhost:4000 → www.localhost.com:4000
 ## 更にその他
 
 [sslのクォリティ調査用サイト](https://www.ssllabs.com/ssltest/analyze.html?d=www.cslab.co.jp)
+
+Jekyllでurlでアクセスしたときにディレクトリを返却する状態を直したい
 
 
 ```sh
