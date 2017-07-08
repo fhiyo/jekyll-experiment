@@ -3,17 +3,18 @@ layout: post
 title:  "grepで-vを検索したいときはどうするか"
 date:   2017-07-06 22:10:21 +0900
 categories: bash
-tags: shellcommand
+tags: command-line
 ---
 
 ```sh
 $ grep -v foo
 ```
-とすると，
 
+とすると，`-v`はオプションと解釈されてfooを標準入力から検索をする．
 
-## double dashの意味は引数の明示的な終わり 05/15/17
-https://unix.stackexchange.com/questions/11376/what-does-double-dash-mean-also-known-as-bare-double-dash
+では検索対象から`-v`を検索したいときはどうすればよいだろうか？
+
+StackExchangeに答えがあった．[what-does-double-dash-mean-also-known-as-bare-double-dash](https://unix.stackexchange.com/questions/11376/what-does-double-dash-mean-also-known-as-bare-double-dash)
 
 > More precisely, a double dash (--) is used in bash built-in commands and many other commands to signify the end of command options, after which only positional parameters are accepted.
 >
@@ -21,4 +22,11 @@ https://unix.stackexchange.com/questions/11376/what-does-double-dash-mean-also-k
 >
 > `grep -- -v file`
 
+というわけで，
 
+```sh
+$ grep -- -v foo
+```
+
+とすればfooという名前のファイルから`-v`という文字列を検索してくれる．
+ちなみに，zshでも同様の結果になった．
