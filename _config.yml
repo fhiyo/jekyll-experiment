@@ -33,7 +33,7 @@ email: fhiyo@gmail.com
 # Configuration for blog
 lang: ja
 paginate: 4
-columns: 3
+columns: 1
 date_format: "%B %d, %Y"
 truncate_len: 200
 
@@ -91,10 +91,10 @@ jquery_ver: 1.10.2
 # Configuration for 3rd party script
 #-----------------------------------
 
-# disqus:
-#     short_name: fhiyo
-#     comment_count: true
-#     developer_mode: true
+disqus:
+    short_name: fhiyo
+    comment_count: true
+    developer_mode: true
 
 #feedburner:
 #    id: YOUR_SITE_ID
