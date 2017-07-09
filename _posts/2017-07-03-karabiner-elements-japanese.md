@@ -4,6 +4,7 @@ title:  "karabiner-elementsで英数キー単体で入力のトグル切り替�
 date:   2017-07-03 22:12:32 +0900
 categories: mac
 tags: karabiner-elements sierra
+comments: true
 ---
 
 macのOSアップデートでsierraにしてから，karabinerが動作しなくなったため代替として[karabiner-elements](https://github.com/tekezo/Karabiner-Elements)を使ってcommand単体で押したら英数キーとして反応するように設定していたのだが，karabiner-elementsを0.91.5にアップデートしたら効かなくなってしまった．
