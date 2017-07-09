@@ -4,6 +4,7 @@ title:  "ゼロから作るDeepLearningメモ"
 date:   2017-07-02 15:27:09 +0900
 categories: 機械学習
 tags: deep-learning
+comments: true
 ---
 ゼロから作るDeepLearningを読んだメモ．
 とりあえず自分が気になった部分のみ書いていきます．

@@ -4,6 +4,7 @@ title:  "投稿記事のネタ置き場"
 date:   2017-07-03 22:12:32 +0900
 categories: ネタ置き場
 tags: hoge
+comments: true
 ---
 次に投稿できるようにネタだけ置いておく場所
 
@@ -52,6 +53,16 @@ localhost:4000 → www.localhost.com:4000
 再インストールしても直らなかった．なぜ？？
 これ，どこに質問したらよいのだろう？stackoverflowにそれっぽいところあるのか？
 
+## jekyllのサイトをデプロイしてgithub上でサイトを確認するとdropdownが上手く動作しない
+解決方法: [Dropdown box appearing incorrectly on GitHub Pages built with Jekyll](https://stackoverflow.com/questions/43841922/dropdown-box-appearing-incorrectly-on-github-pages-built-with-jekyll)
+
+> To solve your problem you need to copy style.css file from \_includes\css to assets\css and rename it to site.css (because you already have style.css in assets\css folder) then you have to add link to \_includes\head.html as below:
+>
+>     {% endcase %}
+>     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/site.css">
+>     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+>
+> <!-- Font Awesome -->
 
 
 ## 更にその他

@@ -4,6 +4,7 @@ title:  "Jekyllで記事を\__draftsに置いとこうとしたら詰まった"
 date:   2017-07-03 22:12:32 +0900
 categories: ruby
 tags: jekyll bundle
+comments: true
 ---
 
 [Jekyll](https://jekyllrb.com/)は`_drafts`というディレクトリの中に下書きを
