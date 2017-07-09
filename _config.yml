@@ -92,7 +92,7 @@ jquery_ver: 1.10.2
 #-----------------------------------
 
 disqus:
-    short_name: fhiyo
+    short_name: https-fhiyo-github-io
     comment_count: true
     developer_mode: true
 
