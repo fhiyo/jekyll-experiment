@@ -26,6 +26,13 @@ Jekyllという性的ジェネレーターを使ってブログ作ってみま�
 
 ページ内アンカー設定したいが，どうやってやるんだ？
 
+自分のページがhttpsでCSP? (Content Security-Policy) errorになる．
+(Your connection to this site is not fully secureと表示される)
+[CSP error with Disqus on github pages](https://stackoverflow.com/questions/41530097/csp-error-with-disqus-on-github-pages)
+
+後，自動でコメント欄が表示されない (Chromeで)．他のサイトではdisqusのコメント欄はこちらがポップアップを許可しなくても表示されるので，自分のサイト側の問題であろう．これを何とかしたい．
+解決策か？: [The built-in Disqus now requires visitors to load unsafe scripts on https in order to comment. ](https://github.com/plusjade/jekyll-bootstrap/issues/306)
+
 ## バグ報告の環境説明はどこまで言えばいい？
 他のプログラマがそのバグを再現できるまで，というのは当たり前だと思うのだが，
 じゃあ実質どこまで言うのがよいのだろう？
@@ -44,6 +51,14 @@ Jekyllはgemで管理されているパッケージ．以下のコマンドで�
 gem install jekyll
 ```
 
+- [Ruby on Rails チュートリアル](https://railstutorial.jp/chapters/beginning?version=5.0#cha-beginning)
+
+
+- permalink: 強制的なパスの書き換え？
+- Liquid: テンプレートエンジン.\{% hoge %\}や\{\{ hoge \}\}で囲うやつ．
+
+
+
 
 ## google chromeでアドレスバーでサーチしようとすると勝手に"www"と"com"がつく
 例:
@@ -58,7 +73,7 @@ localhost:4000 → www.localhost.com:4000
 
 > To solve your problem you need to copy style.css file from \_includes\css to assets\css and rename it to site.css (because you already have style.css in assets\css folder) then you have to add link to \_includes\head.html as below:
 >
->     {% endcase %}
+>     \{\% endcase \%\}
 >     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/site.css">
 >     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 >
@@ -71,9 +86,26 @@ localhost:4000 → www.localhost.com:4000
 
 Jekyllでurlでアクセスしたときにディレクトリを返却する状態を直したい
 
+pythonでdictのlistからdictの特定のkeyの値をループで回して取得したい
+[Getting a list of specific index items from a list of dictionaries in python (list comprehension)](https://stackoverflow.com/questions/940442/getting-a-list-of-specific-index-items-from-a-list-of-dictionaries-in-python-li)
+
+やり方:
+
+```python
+[item['key'] for item in list_]
+```
+
+
+
+## エラー対策
 
 ```sh
 jekyll 3.5.0 | Error:  Zero vectors can not be normalized
 ```
 
 が起きてしまうので対策として一番下に適当に何か書いておく．
+
+↑
+何も書いてないからこれが起きるというわけではない？
+related-postsが生成してるページの部分に内容が入っていないからこれが出るのかもしれない．
+
