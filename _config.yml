@@ -6,8 +6,8 @@ destination: ./_site
 gems: [jekyll-paginate]
 plugins_dir: ./_plugins
 lsi: true
-highlighter: true
-markdown: rdiscount
+highlighter: pygments
+markdown: kramdown
 exclude: ['Gemfile', 'Gemfile.lock', 'Rakefile', 'README.md', 'vender']
 
 # Configuration for url/path
