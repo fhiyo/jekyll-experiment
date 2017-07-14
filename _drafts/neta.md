@@ -33,6 +33,13 @@ Jekyllという性的ジェネレーターを使ってブログ作ってみま�
 後，自動でコメント欄が表示されない (Chromeで)．他のサイトではdisqusのコメント欄はこちらがポップアップを許可しなくても表示されるので，自分のサイト側の問題であろう．これを何とかしたい．
 解決策か？: [The built-in Disqus now requires visitors to load unsafe scripts on https in order to comment. ](https://github.com/plusjade/jekyll-bootstrap/issues/306)
 
+
+#### Boostrapカスタマイズ
+- [【Boostrap入門】オシャレでレスポンシブなポートフォリオサイトの作り方](https://creive.me/archives/9316/)
+- [Bootstrapをカスタマイズする上で必ず知っておきたい考え方](http://blog.yuhiisk.com/archive/2016/03/22/customize-the-css-of-bootstrap.html)
+
+
+
 ## バグ報告の環境説明はどこまで言えばいい？
 他のプログラマがそのバグを再現できるまで，というのは当たり前だと思うのだが，
 じゃあ実質どこまで言うのがよいのだろう？
@@ -55,9 +62,26 @@ gem install jekyll
 
 
 - permalink: 強制的なパスの書き換え？
-- Liquid: テンプレートエンジン.\{% hoge %\}や\{\{ hoge \}\}で囲うやつ．
+- Liquid: テンプレートエンジン.\{\% hoge \%\}や\{\{ hoge \}\}で囲うやつ．
 
 
+
+## 独学でWeb系サイト作るために参考にするもの
+
+[全くの初心者が独学でWeb制作できるようになるまでの効率の良い勉強の進め方](https://creive.me/archives/9157/)
+上のリンクで紹介しているサイト
+
+- ドットインストール（動画で学べるWebサービス）
+- HTMLクイックリファレンス（制作リファレンスサイト）
+- Codecademy（海外の初学者向けWebサービス）
+- W3SCHOOL（英語の制作リファレンスサイト）
+- UPDE（Web制作関連情報を発信するブログの記事を配信するサイト）
+
+
+## Liquidのsyntex highlightをしようとすると変になる
+
+![liquid-error](/assets/img/neta/liquid_error.png)
+どうした．．．
 
 
 ## google chromeでアドレスバーでサーチしようとすると勝手に"www"と"com"がつく
