@@ -6,7 +6,7 @@ destination: ./_site
 gems: [jekyll-paginate]
 plugins_dir: ./_plugins
 lsi: true
-highlighter: pygments
+highlighter: rouge
 markdown: kramdown
 exclude: ['Gemfile', 'Gemfile.lock', 'Rakefile', 'README.md', 'vender']
 
@@ -79,6 +79,7 @@ asides:
     github: true
 
 # Configuration for pygments
+# Rouge themes are 100% compatible with Pygments' stylesheets.
 # `pygments_style`:
 # autumn, borland, bw, colorful, default, emacs, friendly, fruity,
 # github, manni, monokai, murphy, native, pastie, perldoc, tango, trac, vs

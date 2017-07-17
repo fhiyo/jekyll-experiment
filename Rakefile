@@ -73,16 +73,16 @@ task :post, :title do |t, args|
     post.puts "layout: post"
     post.puts "date: #{Time.now.strftime('%Y-%m-%d %H:%M')}"
     post.puts "title: \"#{title.gsub(/-/,' ').gsub(/&/,'&amp;')}\""
-    post.puts "description: \"\""
-    post.puts "keywords: \"\""
-    post.puts "excerpt: \"\""
-    post.puts "thumbnail: \"\""
+    # post.puts "description: \"\""
+    # post.puts "keywords: \"\""
+    # post.puts "excerpt: \"\""
+    # post.puts "thumbnail: \"\""
     post.puts "categories: [uncategorized]"
     post.puts "tags: []"
     post.puts "comments: true"
     post.puts "published: true"
     post.puts "---"
-    post.puts "\n<!--more-->"
+    # post.puts "\n<!--more-->"
   end
 end
 
