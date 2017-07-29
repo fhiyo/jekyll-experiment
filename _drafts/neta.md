@@ -8,6 +8,92 @@ comments: true
 ---
 次に投稿できるようにネタだけ置いておく場所
 
+## awsのIAMロールを再作成する
+[ユーザーアクセスキーを作成、修正、削除するには](http://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/id_credentials_access-keys.html)
+
+[【Tips】AWS CLIを使ってAmazon EC2を起動・停止するワンライナーまとめ](http://dev.classmethod.jp/cloud/aws/awscli-tips-ec2-start-stop/#link-2-1)
+
+## docker関係
+
+```sh
+[fhiyo@ip-172-31-27-113 ~]$ ls -aZ /usr/bin/docker*
+-rwxr-xr-x. root root system_u:object_r:docker_exec_t:s0 /usr/bin/docker
+-rwxr-xr-x. root root system_u:object_r:container_runtime_exec_t:s0 /usr/bin/docker-containerd
+-rwxr-xr-x. root root system_u:object_r:container_runtime_exec_t:s0 /usr/bin/docker-containerd-current
+-rwxr-xr-x. root root system_u:object_r:container_runtime_exec_t:s0 /usr/bin/docker-containerd-shim
+-rwxr-xr-x. root root system_u:object_r:container_runtime_exec_t:s0 /usr/bin/docker-containerd-shim-current
+-rwxr-xr-x. root root system_u:object_r:container_runtime_exec_t:s0 /usr/bin/docker-ctr-current
+-rwxr-xr-x. root root system_u:object_r:container_runtime_exec_t:s0 /usr/bin/docker-current
+-rwxr-xr-x. root root system_u:object_r:container_runtime_exec_t:s0 /usr/bin/dockerd
+-rwxr-xr-x. root root system_u:object_r:container_runtime_exec_t:s0 /usr/bin/dockerd-current
+-rwxr-xr-x. root root system_u:object_r:container_runtime_exec_t:s0 /usr/bin/docker-storage-setup
+[fhiyo@ip-172-31-27-113 ~]$ man docker
+[fhiyo@ip-172-31-27-113 ~]$ man chcon
+[fhiyo@ip-172-31-27-113 ~]$ sudo chcon -t docker_exec_t /usr/bin/docker*
+[fhiyo@ip-172-31-27-113 ~]$ ls -aZ /usr/bin/docker*
+-rwxr-xr-x. root root system_u:object_r:docker_exec_t:s0 /usr/bin/docker
+-rwxr-xr-x. root root system_u:object_r:docker_exec_t:s0 /usr/bin/docker-containerd
+-rwxr-xr-x. root root system_u:object_r:docker_exec_t:s0 /usr/bin/docker-containerd-current
+-rwxr-xr-x. root root system_u:object_r:docker_exec_t:s0 /usr/bin/docker-containerd-shim
+-rwxr-xr-x. root root system_u:object_r:docker_exec_t:s0 /usr/bin/docker-containerd-shim-current
+-rwxr-xr-x. root root system_u:object_r:docker_exec_t:s0 /usr/bin/docker-ctr-current
+-rwxr-xr-x. root root system_u:object_r:docker_exec_t:s0 /usr/bin/docker-current
+-rwxr-xr-x. root root system_u:object_r:docker_exec_t:s0 /usr/bin/dockerd
+-rwxr-xr-x. root root system_u:object_r:docker_exec_t:s0 /usr/bin/dockerd-current
+-rwxr-xr-x. root root system_u:object_r:docker_exec_t:s0 /usr/bin/docker-storage-setup
+```
+
+```sh
+[fhiyo@ip-172-31-27-113 ~]$ sudo systemctl stop docker
+[fhiyo@ip-172-31-27-113 ~]$ sudo docker daemon -D -s devicemapper
+```
+
+
+## Homebrewでlua付きのvimをupgradeしようとするとエラーが出る
+[Homebrew で Vim がインストールできない](https://ja.stackoverflow.com/questions/23350/homebrew-で-vim-がインストールできない)
+
+Python.h not foundと言われる．自分はpyenvで環境構築をしているので，そのせいで上手くパスが読み込めずにエラーになることがある．
+解決方法としては，上の記事の回答と同じだが，
+
+1. .zshrcに設定しているpyenvの設定をコメントアウト
+2. `source ~/.zshrc`でシェルの設定を再読込
+3. `brew upgrade`を行いvimのupgradeを完了
+4. .zshrcの設定を元に戻す
+
+という流れで行った．
+
+
+## ec2のcentos/7でdocker + redmine環境を構築する
+#### centos/7のdockerのdata shareがPermission deniedでできない
+selinuxを切ったらいけた．でもあまりやりたくないから，他の手段も考えたい．．．暫定ではまあ切っとくけど．
+
+## redmineでプラグインをインストールするときの手順
+[Plugins installation on Redmine installed from packages](https://www.redmineup.com/pages/help/installation/how-to-install-redmine-plugins-from-packages)
+`bundle exec rake redmine:plugins NAME=plugin's name RAILS_ENV=production`
+
+
+## dbusとは?
+
+
+## pythonのis not a packageエラーについて
+ライブラリ内のパッケージと自分が作成していたスクリプトファイルの名前が競合していたために起こっていたエラーだった．
+色々調べたところsys.pathの0, 1番目の要素を削除したら正常に読み込まれることを発見したので，そこから推測した．
+
+## カバレッジ分析について
+
+
+
+## phpのTraitについて，他の言語での同等の機能についてもまとめ
+[Trait とは? その使い道を考えてみる](https://www.slideshare.net/tlync/trait)
+[PHPのトレイトをいまさら使う](http://qiita.com/kazuhsat5/items/6ced7492daaddf1cd3d9)
+
+MixinがRubyでは同等の機能っぽい．Pythonでもそうなのかな？
+Pythonでtraitは別のライブラリに当っているようだ．
+
+継承，委譲，多重継承のことが分かっていないと混乱する．
+ちょうどいい機会なのでまとめておこう．記事分けてもいいし．
+
+
 ## Vulsというサーバーの脆弱性検査ツール
 [Vulsを試してみよう](https://toe.bbtower.co.jp/20160623/645/)
 
@@ -104,6 +190,10 @@ localhost:4000 → www.localhost.com:4000
 > <!-- Font Awesome -->
 
 
+## Zabbix監視ツール
+
+
+
 ## 更にその他
 
 [sslのクォリティ調査用サイト](https://www.ssllabs.com/ssltest/analyze.html?d=www.cslab.co.jp)
@@ -119,17 +209,19 @@ pythonでdictのlistからdictの特定のkeyの値をループで回して取�
 [item['key'] for item in list_]
 ```
 
+- utf-8, utf-16, utf-32の違い
+[扱う文字コードに迷ったらUTF-8を選ぼう](http://flat-leon.hatenablog.com/entry/select_utf_8)
+[Wikipedia - 結合文字](https://ja.wikipedia.org/wiki/%E7%B5%90%E5%90%88%E6%96%87%E5%AD%97)
 
+- kramdownではコードブロックにタイトルをつけることはできないのか？？
 
-## エラー対策
+- macでgdbやるときはcertificationが必要 [gdb fails with “Unable to find Mach task port for process-id” error](https://stackoverflow.com/questions/11504377/gdb-fails-with-unable-to-find-mach-task-port-for-process-id-error)
+[GDB Wiki - BuildingOnDarwin](http://sourceware.org/gdb/wiki/BuildingOnDarwin)
 
-```sh
-jekyll 3.5.0 | Error:  Zero vectors can not be normalized
-```
+- pythonのEllipsis, NotImplementedの定数について [3. Built-in Constants](https://docs.python.org/3/library/constants.html)
 
-が起きてしまうので対策として一番下に適当に何か書いておく．
+- kernelとuserlandについて
 
-↑
-何も書いてないからこれが起きるというわけではない？
-related-postsが生成してるページの部分に内容が入っていないからこれが出るのかもしれない．
+- centosでgdbを使うときは`debuginfo-install glibc libgcc libstdc++`をする必要がある [issing separate debuginfos, use: debuginfo-install glibc-2.12-1.47.el6_2.9.i686 libgcc-4.4.6-3.el6.i686 libstdc++-4.4.6-3.el6.i686](https://stackoverflow.com/questions/10389988/missing-separate-debuginfos-use-debuginfo-install-glibc-2-12-1-47-el6-2-9-i686)
+
 
