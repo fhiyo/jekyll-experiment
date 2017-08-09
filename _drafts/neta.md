@@ -8,6 +8,73 @@ comments: true
 ---
 次に投稿できるようにネタだけ置いておく場所
 
+## covariance (共変) と invariance (不変) について (用語説明)
+[Covariance, Invariance and Contravariance explained in plain English?](https://stackoverflow.com/questions/8481301/covariance-invariance-and-contravariance-explained-in-plain-english)
+
+
+## lsの代わりにexaコマンド、progressコマンドでcpなどの進捗を表示
+
+[Linuxメモ : 「exa」Rustで書かれたカラフルなls代替コマンドを試す](http://wonderwall.hatenablog.com/entry/2017/08/07/222350)
+[Linuxメモ : progressでLinuxコマンド(cp, mv, dd, tar, cat…)の進捗を表示](http://wonderwall.hatenablog.com/entry/2017/08/04/073000)
+
+## treeコマンドで文字化けを防ぐ
+
+```sh
+tree -N .
+# -N     Print non-printable characters as is instead of as escaped octal numbers.
+```
+
+
+## x11でec2インスタンスに接続
+
+```sh
+sudo yum -y install xauth
+sudo yum -y install xterm
+sudo yum -y install xorg-x11-apps
+xeyes
+
+sudo yum -y install pango pango-devel cairo glib2 redhat-lsb redhat-lsb-graphics libtiff libtiff-devel libjpeg-devel gcc
+sudo yum -y install eog  # 画像ファイルを見るためのアプリケーション
+sudo yum -y install firefox
+firefox  # エラーが出る
+```
+
+- https://blog.masu-mi.me/2015/01/10/use_firefox.html
+- [Xvfb を使って仮想ディスプレイを作る](http://blog.amedama.jp/entry/2016/01/03/115602)
+
+```sh
+# ssh server側
+$ sudo yum -y install firefox
+$ sudo yum -y install xorg-x11-xauth
+$ cat /etc/ssh/sshd_config
+X11Forwarding yes
+X11UseLocalhost no
+$ sudo systemctl restart sshd
+
+# ssh cliant側
+$ tail ~/.ssh/config
+ForwardX11 yes
+```
+
+Andmore, I tried to xvfb, but fail.
+
+```sh
+$ sudo yum -y install xorg-x11-server-Xvfb
+$ Xvfb :1 -screen 0 1024x768x24 &
+$ export DISPLAY=:1
+$ firefox
+```
+
+## markdownの改行に空行を使うな，それはパラグラフを分けるときに使うものだ
+
+## uqmobileで使えるメーラーを作る
+
+## 監視ツールのprometheusが気になる
+
+## windowsのdisable hyper vについて
+
+## pythonの可変長引数の変数名を取るには？
+
 ## awsのIAMロールを再作成する
 [ユーザーアクセスキーを作成、修正、削除するには](http://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/id_credentials_access-keys.html)
 
@@ -61,6 +128,12 @@ Python.h not foundと言われる．自分はpyenvで環境構築をしている
 4. .zshrcの設定を元に戻す
 
 という流れで行った．
+
+## pyenv使ってもjedi-vimで補完
+[え？君せっかく Python のバージョン管理に pyenv 使ってるのに Vim の補完はシステムライブラリ参照してるの？](http://lambdalisue.hatenablog.com/entry/2014/05/21/065845)
+
+## linuxのtimezoneを変更
+[【設定確認から変更方法まで】Linuxでのタイムゾーンの扱い方](https://eng-entrance.com/linux-time-timezone)
 
 
 ## ec2のcentos/7でdocker + redmine環境を構築する
@@ -217,6 +290,22 @@ pythonでdictのlistからdictの特定のkeyの値をループで回して取�
 
 - macでgdbやるときはcertificationが必要 [gdb fails with “Unable to find Mach task port for process-id” error](https://stackoverflow.com/questions/11504377/gdb-fails-with-unable-to-find-mach-task-port-for-process-id-error)
 [GDB Wiki - BuildingOnDarwin](http://sourceware.org/gdb/wiki/BuildingOnDarwin)
+
+#### gdbの問題 6/25/15
+http://ntraft.com/installing-gdb-on-os-x-mavericks/
+↑
+certificateの作り方など書いてある。
+ここに書いてある通りプロセスをkillしたらgdbが動かない問題は解決？した。しかしまだwarningが出る。
+打ったコマンド…
+% ps -e | grep taskgated
+8:   97 ??         0:23.23 /usr/libexec/taskgated -s
+255:55917 ttys000    0:00.00 grep --color -n -I --exclude=*.svn-* --exclude=entries --exclude=*/cache/* taskgated
+% sudo kill -9 97
+% which gdb
+/usr/local/bin/gdb
+% codesign -s gdb-cert /usr/local/bin/gdb
+
+
 
 - pythonのEllipsis, NotImplementedの定数について [3. Built-in Constants](https://docs.python.org/3/library/constants.html)
 
