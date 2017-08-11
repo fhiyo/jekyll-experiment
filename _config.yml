@@ -17,7 +17,7 @@ exclude: ['Gemfile', 'Gemfile.lock', 'Rakefile', 'README.md', 'vender']
 # * Project page:
 #   url: http://fhiyo.github.com/REPOSITORY
 #   baseurl: /REPOSITORY
-url: http://fhiyo.github.com
+url: https://fhiyo.github.io
 baseurl:
 
 # Configuration for permalink
@@ -76,7 +76,7 @@ asides:
     advertisement: true
     recent_posts: true
     archive_tabs: true
-    tweets: true
+    tweets: false
     github: true
 
 # Configuration for pygments
@@ -113,13 +113,13 @@ facebook:
     xfbml: false
     locale: ja_JP
 
-twitter:
-    username: fhiyo_
-    count: 5
-    exclude_replies: true
-    show_screen_name: true
-    show_follower_count: false
-#    widget_id: 243046062967885824
+# twitter:
+#     username: fhiyo_
+#     count: 5
+#     exclude_replies: true
+#     show_screen_name: true
+#     show_follower_count: false
+# #    widget_id: 243046062967885824
 
 github:
    username: fhiyo
