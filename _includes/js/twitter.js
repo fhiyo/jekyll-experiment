@@ -7,7 +7,7 @@
 
 		var getTweets = function(user, opts) {
 			return $.ajax({
-				url: 'http://api.twitter.com/1/statuses/user_timeline/' + user + '.json',
+				url: 'https://api.twitter.com/1.1/statuses/user_timeline/' + user + '.json',
 				data: opts,
 				dataType: 'jsonp'
 			});
@@ -20,7 +20,7 @@
 			$.each(args, function(i, tweet) {
 				if (tweet.text !== undefined) {
 					elm.append('<li><p>' + makeLinks(tweet.text) + '&nbsp;' + 
-					'<a href="http://twitter.com/' + username + '/status/' + tweet.id_str + '">' + 
+					'<a href="https://twitter.com/' + username + '/status/' + tweet.id_str + '">' + 
 					'<span class="badge">' + prettyDate(now, tweet.created_at) + '</span></a></p></li>');
 					if (i < n) {
 						elm.append('<li class="divider"></li>');
@@ -32,8 +32,8 @@
 
 		var makeLinks = function(text) {
 			return text.replace(/(https?:\/\/)([\w\-:;?&=+.%#\/]+)/gi, '<a href="$1$2">$2</a>')
-				.replace(/(^|\W)@(\w+)/g, '$1<a href="http://twitter.com/$2">@$2</a>')
-				.replace(/(^|\W)#(\w+)/g, '$1<a href="http://search.twitter.com/search?q=%23$2">#$2</a>');
+				.replace(/(^|\W)@(\w+)/g, '$1<a href="https://twitter.com/$2">@$2</a>')
+				.replace(/(^|\W)#(\w+)/g, '$1<a href="https://search.twitter.com/search?q=%23$2">#$2</a>');
 		};
 
 		// This pretty word is from Sky Slavin.

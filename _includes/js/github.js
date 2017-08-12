@@ -1,6 +1,6 @@
 /*
  * GitHub widget
- * http://developer.github.com/v3/repos/
+ * https://developer.github.com/v3/repos/
  */
 ;(function($, window, document) {
 	$.fn.showGitHubRepo = function(username, options) {
