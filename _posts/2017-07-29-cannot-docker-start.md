@@ -3,7 +3,7 @@ layout: post
 date: 2017-07-29 21:00
 title: "docker startでエラーが出た"
 categories: [docker]
-tags: [docker centos selinux]
+tags: [docker, centos, selinux]
 comments: true
 published: true
 ---
