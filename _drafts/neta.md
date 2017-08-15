@@ -8,6 +8,34 @@ comments: true
 ---
 次に投稿できるようにネタだけ置いておく場所
 
+## Gemfileの内容を刷新したい
+> Main problem is that you are using the wrong dependencies, comment everything in your Gemfile and just use github-pages. Then work from there and everything you do locally will be reflected online.
+
+
+
+## Cythonについて
+[Pythonを高速化するCythonを使ってみた](http://kesin.hatenablog.com/entry/20120306/1331043675)
+> 何が遅いかというと、致命的なことに四則演算が遅いです。でも他の動的型付け言語でスクリプト言語と呼ばれるPerl, Ruby, Javascript も C, Javaのようなコンパイルを行う静的型付け言語に比べれば圧倒的に遅いです（近年ではJavascriptのように著しく進歩した言語もあるので必ずしもそうだとは言えませんが）。
+スクリプト言語が遅い原因の一つは、**変数の型が指定されていないので型のチェックを毎回行う必要があるからです。**この特性があるおかげ自動的に型を変換してオーバーフローを防いでくれるというメリットもあるのですが、どうしても静的型付け言語よりは速度を出すことができません。
+なら**Pythonのコードに型指定を加えてコンパイルしちゃえばいいじゃん！というのがCythonです**。正確にはPythonライクな文法で書いたコードをC/C++に変換してコンパイルします。噂では単純な計算だとPythonのコードを実行するより100倍以上も高速化することもあるらしい（！）ということで試してみました。
+
+
+
+
+
+## git-secretsを使って安心なgithub生活を
+[AWSアカウントを取得したら速攻でやっておくべき初期設定まとめ](http://qiita.com/tmknom/items/303db2d1d928db720888)
+[クラウド破産しないように git-secrets を使う](http://qiita.com/pottava/items/4c602c97aacf10c058f1)
+
+
+## Shippableについて
+[Shippable](http://docs.shippable.com/)
+
+
+## deployment vs release
+[What is the difference between “deployment” and “release”?](https://english.stackexchange.com/questions/182724/what-is-the-difference-between-deployment-and-release?newreg=2e014edc71344b3089a05088f4d1b617)
+
+
 ## レンダリングモードについて
 
 [DOCTYPEスイッチ－HTMLの基本](http://www.htmq.com/htmlkihon/302.shtml)
