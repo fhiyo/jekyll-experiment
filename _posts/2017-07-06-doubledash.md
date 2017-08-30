@@ -2,8 +2,8 @@
 layout: post
 title:  "grepで-vを検索したいときはどうするか"
 date:   2017-07-06 22:10:21 +0900
-categories: bash
-tags: command-line
+categories: [bash]
+tags: [command]
 comments: true
 ---
 
