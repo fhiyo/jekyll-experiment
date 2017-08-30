@@ -8,6 +8,233 @@ comments: true
 ---
 次に投稿できるようにネタだけ置いておく場所
 
+
+## 08/28/17勉強内容
+- Qtとは
+- GPLとは (GNU Privacy Guard, GPGとは違う)
+- Luaの概要
+- DLL Hellについて
+- userlandについて (kernelとの権限の関係)
+- DMCA: デジタルミレニアム著作権法(Digital Millennium Copyright Act)の略称
+
+
+## dllって何であるの？
+
+[DLL Hell の終焉](https://msdn.microsoft.com/ja-jp/library/ms811694.aspx)
+
+> Unix は、伝統的に完全にリンクされたイメージでアプリケーションを出荷しています。現在の Unix は共有ライブラリをサポートしていますが、多くの Unix ベンダが、引き続き静的にリンクされたイメージを出荷しています。この場合、アプリケーションは完全に自立しているため、新しいライブラリやアプリケーションをインストールすることで、既存のプログラムが動かなくなるようなことはありません。アプリケーション ベンダは、別のソフトウェアのインストールによって自分たちの製品が壊されるという心配をせずに済むのです。そこで、この質問になります。「DLL のアプローチが静的にリンクされたイメージのアプローチよりも堅牢でないのなら、なぜ DLL を使うアプリケーションを出荷したいと思うのでしょうか？」
+> 主張 1: DLL は、ディスク スペースを節約します。ほとんどすべてのアプリケーションは、メモリや他のリソースを割り当てる必要があります。もしコンピュータ上に Msvcrt.dll を使うアプリケーションやユーティリティが 501 個あって、これらが静的にリンクすると、少なめに見積もっても Msvcrt.dll のサイズの 500 倍のディスク スペースを無駄にすることになります。
+> 注意:     使用しているファイル システムによっては、実際の浪費スペースがさらに多くなる場合があります。FAT16 ファイル システムでは、整数単位の固定長ファイル ブロックでファイルを格納します。ファイルの最後のブロックは完全に埋まらないことがあるため、平均でファイルごとに 2 分の 1 ブロックずつディスク スペースが無駄になります。
+> 現実: DLL は確かにディスク スペースを節約します。しかし、ディスク スペースはただ同然であり、また安くなる一方でしょう。それでもなお、共通のコードが安全に共有可能である限りにおいて、DLL は有益だといえます。
+> 主張 2: DLL はメモリ マッピングと呼ばれる共有テクニックを使って、メモリを節約します。Windows はグローバル ヒープに DLL をロードしてから、その DLL をロードする各アプリケーションのアドレス スペースに DLL のアドレス範囲をマップ しようとします 。10 の異なるプロセスがあって、それらがすべて Msvcrt.dll を使う場合、そのコピーを 10 個ロードする代わりに Msvcrt.dll の同じインスタンスを共有することができます。
+> 現実: ほとんどのプロセスでは、それぞれ特定の DLL をロードし、またその DLL の 1 つのグローバル インスタンスを共有できます。共通の DLL を共有することは、メモリ ロードをかなり節約します。しかし、Windows では、複数プロセスによってロードされた 1 つの DLL インスタンスを常に共有できるわけではありません。
+
+
+
+## POSIX準拠のshell scriptかどうかをテストするには？
+
+[How can I test for POSIX compliance for shell scripts?](https://unix.stackexchange.com/questions/48786/how-can-i-test-for-posix-compliance-for-shell-scripts)によると，POSIX準拠なshell scriptを書くことよりも，移植性がある方がはるかに強い要件なのだそうだ．任意のPOSIX shellで動作させるようにスクリプトを書くのは大変ではないが，世界中のshell全てで動作するスクリプトを得ることははるかに難しい．  
+ここの回答に書かれている[Autoconf guide to portable shell](https://www.gnu.org/software/autoconf/manual/autoconf.html#Portable-Shell)を参考にして
+
+## tensorflowのcpu拡張命令有効版をインストールする
+
+#### 参考
+[Python: Keras/TensorFlow の学習を CPU の拡張命令で高速化する (Mac OS X)](http://blog.amedama.jp/entry/2017/03/08/223308)
+[Installing TensorFlow from Sources](https://www.tensorflow.org/install/install_sources)
+[jarutis/tf_serving.sh](https://gist.github.com/jarutis/6c2934705298720ff92a1c10f6a009d4)
+
+```sh
+sudo su
+
+# bazelのインストール
+yum -y install java-1.8.0-openjdk-devel
+yum -y install gcc gcc-c++ kernel-devel make automake autoconf swig git unzip libtool binutils
+
+# Bazel
+wget https://github.com/bazelbuild/bazel/releases/download/0.5.2/bazel-0.5.2-installer-linux-x86_64.sh | sh
+chmod +x bazel-*
+./bazel-*
+# export PATH=/usr/local/bin:$PATH  # パスが通ってない場合は追加
+
+# Tensorflowのソースコードを取得
+cd /usr/local/src
+git clone https://github.com/tensorflow/tensorflow.git
+
+$ ./configure
+Extracting Bazel installation...
+......................................................................
+You have bazel 0.5.2 installed.
+Please specify the location of python. [Default is /bin/python]: /usr/bin/python3.5
+Found possible Python library paths:
+  /usr/lib/python3.5/site-packages
+  /usr/lib64/python3.5/site-packages
+Please input the desired Python library path to use.  Default is [/usr/lib/python3.5/site-packages]
+
+Using python library path: /usr/lib/python3.5/site-packages
+Do you wish to build TensorFlow with MKL support? [y/N] N
+No MKL support will be enabled for TensorFlow
+Please specify optimization flags to use during compilation when bazel option "--config=opt" is specified [Default is -march=native]:
+Do you wish to use jemalloc as the malloc implementation? [Y/n] N
+jemalloc disabled
+Do you wish to build TensorFlow with Google Cloud Platform support? [y/N] n
+No Google Cloud Platform support will be enabled for TensorFlow
+Do you wish to build TensorFlow with Hadoop File System support? [y/N] n
+No Hadoop File System support will be enabled for TensorFlow
+Do you wish to build TensorFlow with the XLA just-in-time compiler (experimental)? [y/N] n
+No XLA JIT support will be enabled for TensorFlow
+Do you wish to build TensorFlow with VERBS support? [y/N] n
+No VERBS support will be enabled for TensorFlow
+Do you wish to build TensorFlow with OpenCL support? [y/N] n
+No OpenCL support will be enabled for TensorFlow
+Do you wish to build TensorFlow with CUDA support? [y/N] n
+No CUDA support will be enabled for TensorFlow
+Do you wish to build TensorFlow with MPI support? [y/N] n
+MPI support will not be enabled for TensorFlow
+Configuration finished
+
+$ bazel build -c opt --copt=-msse4.1 --copt=-msse4.2 --copt=-mavx --copt=-mavx2 --copt=-mfma //tensorflow/tools/pip_package:build_pip_package
+
+```
+
+
+## torchのインストール
+
+```sh
+$ git clone https://github.com/torch/distro.git ~/torch --recursive
+$ cd ~/torch
+$ bash install-deps;
+# No package python-ipython available.
+
+$ ./install.sh
+Do you want to automatically prepend the Torch install location
+to PATH and LD_LIBRARY_PATH in your /home/f_hyodo/.bashrc? (yes/no)
+[yes] >>>
+yes
+$ source ${HOME}/.bashrc
+$ which th
+~/torch/install/bin/th  # このように出力されれば成功
+$ th
+
+  ______             __   |  Torch7
+ /_  __/__  ________/ /   |  Scientific computing for Lua.
+  / / / _ \/ __/ __/ _ \  |  Type ? for help
+ /_/  \___/_/  \__/_//_/  |  https://github.com/torch
+                          |  http://torch.ch
+
+th>
+# replが起動されれば成功
+
+```
+
+Torchの使い方 (in Jupyter): [Deep Learning with Torch: the 60-minute blitz](https://github.com/soumith/cvpr2015/blob/master/Deep%20Learning%20with%20Torch.ipynb)
+
+
+
+## built-in commandについて
+[Why is echo a shell built in command?](https://unix.stackexchange.com/questions/1355/why-is-echo-a-shell-built-in-command)
+
+
+## cd -@の意味
+
+```sh
+bash-4.4$ cd -@ tmp
+bash: cd: -@: invalid option
+cd: usage: cd [-L|[-P [-e]] [-@]] [dir]
+```
+
+なぜ怒られる？
+> On systems that support it, the -@ option presents the extended attributes associated with a file as a directory.
+
+サポートしているシステムとは？
+
+
+
+## \[と\[\[の違い
+
+[What is the difference between test, \[ and \[\[ ?](http://mywiki.wooledge.org/BashFAQ/031)
+\[\[はbashやksh, zshなど，特定のPOSIX実装版のshellでしか使えない．
+\[\[の方がハマりどころが少ない模様．
+
+
+
+## シェルの変数を整理する
+
+[Advanced Bash-Scripting Guide:Chapter 3. Special Characters](http://tldp.org/LDP/abs/html/special-chars.html)
+
+
+```sh
+$ echo ${!}
+74573
+$ echo ${-}
+05679BJNXZghilms
+$ echo ${_}
+echo
+$ echo ${:}
+zsh: unrecognized modifier
+
+$ echo ${array}
+1 2 3
+^_^  ~/Dropbox/code/c (development) <U>
+$ echo ${#array[@]}
+3
+^_^  ~/Dropbox/code/c (development) <U>
+$ echo ${#array}
+3
+```
+
+[2.5.2 Special Parameters](http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_05_02)
+
+
+## shellのbuilt-in commandのmanを見るには
+
+```sh
+$ man bash
+# 該当のコマンドを検索
+
+```
+
+
+
+## python Tips
+
+```python
+>>> 'hoge' * True + 'fuga' * False
+'hoge'
+```
+
+
+## virtualboxのprivate_networkを動かすには
+[VirtualBox Internal Network](https://www.vagrantup.com/docs/virtualbox/networking.html)
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.network "private_network", ip: "192.168.50.4", virtualbox__intnet: true
+end
+```
+
+`virtualbox__intnet: true`の記述が必要．
+(デフォルトではhostonlyネットワークが指定されている？ようだ？)
+
+[VirtualBox Internal Network](https://www.vagrantup.com/docs/virtualbox/networking.html#virtualbox-internal-network)
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.network "private_network", ip: "192.168.50.4"
+end
+```
+
+ではipが振られていなかった．なぜ？Vagrant側に問い合わせるか，ソースコード読んで解析したい．．．
+
+
+
+## /usr/bin/envの復習
+
+[What type of path in shebang is more preferable?](https://askubuntu.com/questions/88257/what-type-of-path-in-shebang-is-more-preferable)
+`/usr/bin/env python`は`${PATH}`を頭から順に見ていき，`python`を発見したところでそれを実行するようだ．
+
+
+
+
 ## Gemfileの内容を刷新したい
 > Main problem is that you are using the wrong dependencies, comment everything in your Gemfile and just use github-pages. Then work from there and everything you do locally will be reflected online.
 
@@ -173,41 +400,8 @@ Results logged to /usr/local/lib/ruby/gems/2.4.0/extensions/x86_64-darwin-16/2.4
 $ gem update --system
 $ xcode-select --install
 $ gem install nokogiri  # Success!
-```
-
-
-## zshでタブ補完のときにエラーが出る
-`(eval):setopt:3: no such option: NO_warnnestedvar`
-
-```sh
-$ /bin/zsh --version
-zsh 5.2 (x86_64-apple-darwin16.0)
-^_^  ~/Dropbox/dotfiles/etc (develop)
-$ /usr/local/bin/zsh --version
-zsh 5.4.1 (x86_64-apple-darwin16.7.0)
 
 ```
-`/usr/local/bin/zsh`を起動させたところ，タブ補完でエラーメッセージは出なかった．
-読み込んでるバージョンに食い違いがある，ということか？
-
-```sh
-$ chsh -s /usr/local/bin/zsh
-Changing shell for hyodo.
-Password for hyodo:
-chsh: /usr/local/bin/zsh: non-standard shell
-```
-
-参考: [OS X refuses to setting fish as default shell(installed via Homebrew)](https://github.com/fish-shell/fish-shell/issues/989)
-
-```sh
-sudo vim /etc/shells
-# /usr/local/bin/zsh をリストに追加
-chsh -s /usr/local/bin/zsh
-# シェルを再起動
-```
-
-で問題は解決した．
-
 
 ## トランスパイルとは
 新しいJavaScriptの仕様で書かれたソースコードを現状のブラウザで使用できるように変換すること？
@@ -485,11 +679,9 @@ localhost:4000 → www.localhost.com:4000
 > <!-- Font Awesome -->
 
 
-## Zabbix監視ツール
-
-
-
 ## 更にその他
+
+- vimでカーソルの前にpasteするときは`P`を押すといける
 
 [sslのクォリティ調査用サイト](https://www.ssllabs.com/ssltest/analyze.html?d=www.cslab.co.jp)
 
@@ -532,6 +724,9 @@ certificateの作り方など書いてある。
 - pythonのEllipsis, NotImplementedの定数について [3. Built-in Constants](https://docs.python.org/3/library/constants.html)
 
 - kernelとuserlandについて
+[What's the difference of the Userland vs the Kernel? \[duplicate\]](https://unix.stackexchange.com/questions/137820/whats-the-difference-of-the-userland-vs-the-kernel)
+> userland is what the daemon does (or can do) when interacting with the operating systems ressouces (I/O, network, memory, cpu time). Those ressources are hidden from the process in the kernel space.
+
 
 - centosでgdbを使うときは`debuginfo-install glibc libgcc libstdc++`をする必要がある [issing separate debuginfos, use: debuginfo-install glibc-2.12-1.47.el6_2.9.i686 libgcc-4.4.6-3.el6.i686 libstdc++-4.4.6-3.el6.i686](https://stackoverflow.com/questions/10389988/missing-separate-debuginfos-use-debuginfo-install-glibc-2-12-1-47-el6-2-9-i686)
 
