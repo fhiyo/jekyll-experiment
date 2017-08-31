@@ -133,7 +133,7 @@ $ bash install-deps;
 
 $ ./install.sh
 Do you want to automatically prepend the Torch install location
-to PATH and LD_LIBRARY_PATH in your /home/f_hyodo/.bashrc? (yes/no)
+to PATH and LD_LIBRARY_PATH in your /home/fhiyo/.bashrc? (yes/no)
 [yes] >>>
 yes
 $ source ${HOME}/.bashrc
