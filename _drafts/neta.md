@@ -9,6 +9,32 @@ comments: true
 次に投稿できるようにネタだけ置いておく場所
 
 
+## ovirt
+[oVirt](http://searchservervirtualization.techtarget.com/definition/oVirt)
+何か公式のページの証明書がエラーになってて警告が出たから見てない．．
+
+
+
+## torch image inastall
+
+```sh
+$ luarocks install image
+$ sudo yum -y libjpeg-dev libpng12-dev
+
+$ luarocks install qtlua
+$ luarocks install qttorch
+$ which qlua
+/home/me/torch/install/bin/qlua
+$ qlua
+Lua 5.1 Copyright (...)
+> require('image')
+> l = image.lena()
+> image.display(l)
+> 
+```
+
+
+
 ## 08/28/17勉強内容
 - Qtとは
 - GPLとは (GNU Privacy Guard, GPGとは違う)
@@ -107,7 +133,7 @@ $ bash install-deps;
 
 $ ./install.sh
 Do you want to automatically prepend the Torch install location
-to PATH and LD_LIBRARY_PATH in your /home/f_hyodo/.bashrc? (yes/no)
+to PATH and LD_LIBRARY_PATH in your /home/fhiyo/.bashrc? (yes/no)
 [yes] >>>
 yes
 $ source ${HOME}/.bashrc
@@ -432,13 +458,6 @@ $ gem install nokogiri  # Success!
 
 [Linuxメモ : 「exa」Rustで書かれたカラフルなls代替コマンドを試す](http://wonderwall.hatenablog.com/entry/2017/08/07/222350)
 [Linuxメモ : progressでLinuxコマンド(cp, mv, dd, tar, cat…)の進捗を表示](http://wonderwall.hatenablog.com/entry/2017/08/04/073000)
-
-## treeコマンドで文字化けを防ぐ
-
-```sh
-tree -N .
-# -N     Print non-printable characters as is instead of as escaped octal numbers.
-```
 
 
 ## x11でec2インスタンスに接続
