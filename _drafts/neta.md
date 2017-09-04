@@ -9,6 +9,64 @@ comments: true
 次に投稿できるようにネタだけ置いておく場所
 
 
+## bashのReadlineでもキーボードマクロが使える
+
+[The GNU Readline Library](http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html)
+
+[Bash - ArchWiki#コマンドライン](https://wiki.archlinuxjp.org/index.php/Bash#.E3.82.B3.E3.83.9E.E3.83.B3.E3.83.89.E3.83.A9.E3.82.A4.E3.83.B3)
+> Bash のコマンドラインは Readline という名前の別のライブラリによって処理されています。Readline にはコマンドラインを使用するための多数のショートカットがあります。単語ごとに前後に移動、単語の削除など。また、入力したコマンドの履歴を管理するのも Readline の仕事です。最後に、また重要なことですが、Readline はマクロを作成するのを可能にします。
+
+bashのコマンドラインはReadlineという名前のライブラリが処理をしていたのか．zshはzleか．
+
+
+```sh
+\C-x (  # マクロ開始
+hoge    # マクロを登録する
+\C-x )  # マクロ終了
+\C-x e  # マクロ実行
+```
+
+キーボードマクロの例: [Readline - ArchWiki Readline#マクロ](https://wiki.archlinuxjp.org/index.php/Readline#.E3.83.9E.E3.82.AF.E3.83.AD)
+
+`${HOME}/.inputrc`に書かなくても`${HOME}/.bashrc`にfunctionを追加したり，[pet](https://github.com/knqyf263/pet)を使ってもいい．でもマクロという原始的なやり方な分，細かい制御ができそうな印象．
+
+### 関連
+[もっと早くから知りたかった、bashのreadline系オプション](http://qiita.com/gyu-don/items/6077bca176150de024b9)
+
+## シングルトンが駄目な理由
+
+[シングルトンの賢い使用法](https://www.ibm.com/developerworks/jp/webservices/library/co-single.html)
+
+いくつかの理由をざっと見した感じ、ピンと来ないのは自分がテストを書く意識が足りないからだと思う。
+**コードを書くときはテストを書かなければならない。**
+
+
+
+## devsecopsとは
+[What is DevSecOps?](http://www.devsecops.org/blog/2015/2/15/what-is-devsecops)
+
+
+
+## 楽観的ロックと悲観的ロック
+
+railsのロックについての説明: [2010/08/17(火) 楽観的ロックと悲観的ロック](http://snjx.info/diary/snjx/041)
+> 悲観的ロックは、レコードを読み込むときかける形式のロックで、要するに「これからこのレコードをいろいろいじるのでほかのやつらは触るなよ」と言う宣言。実装はDBエンジンに依存している。MySQLなりPostegrasなり、主要なDBエンジンはたいてい対応しているはず。
+楽観的ロックは、レコードを書き込むときに問い合わせる形式のロックで、要するに「とりあえず変更したレコードを手元に持っているけどほんとにこれ書き込んでいいのかな」という確認。実装はActiveRecordが担う。テーブルにlock_versionという項目を作っておく必要がある。詳細はぐぐってくれ。
+理解するポイントは、実はロックをかけるタイミングではなく、ロックをはずすタイミングがあるかないか。だと思う。
+
+悲観的ロックっていうのは、ロックをかけた人が責任持ってロックをはずす必要がある。saveなりなんなりを契機にしてDBエンジンがちゃんとロック解除の世話を見てくれるのでユーザはあんまり意識しなくてすんでいるけど、確実に解除はしておかないと、つまりデッドロックに陥ってしまう。
+
+対して、楽観的ロックにはそもそもロックをかけるという概念が薄い。railsでいえば、saveするたびにlock_versionがインクリメントされる。もし、あるレコードをsaveしたときに、そのレコードをfindしてきたときのlock_versionと違っていたらエラーをraiseするのが楽観的ロック。
+
+railsでロックをかけるという場合、これはもう、ほとんどWebシステムで、editで画面を作るときにfindされupdateをpostされたときにsaveされることになる。findの時点とpostの時点でセッションが違うのだ。
+悲観的ロックとは、バッチ処理などで一連のトランザクションが進行する間だけレコードの整合性を保障するための仕組みである。ひとつのプロセスなりスレッドなりセッションなりで処理が完結する場合に有効な戦略ということ。
+findの時点とsaveの時点でセッションが違うと、システムが責任もって処理を完結させることができない可能性が出てくる。たとえばeditで画面を表示(つまりfindでレコードをロード)したあとブラウザを閉じちゃって、ついにupdateを呼び出さなかった場合、ロックを解除する契機がなくなってしまう。
+これが楽観的ロックだと、saveするときにだけ上書きできるかどうか確認する。楽観的ロックであれば、findとsaveの同期を取る必要がない。saveの時だけ判断すればいいのだ。
+
+てなわけで、結局railsではほとんど楽観的ロックしか、出番がないってことですな。
+
+
+
 ## ovirt
 [oVirt](http://searchservervirtualization.techtarget.com/definition/oVirt)
 何か公式のページの証明書がエラーになってて警告が出たから見てない．．
@@ -18,9 +76,9 @@ comments: true
 ## torch image inastall
 
 ```sh
-$ luarocks install image
+$ luarocks install image  # 1.1.alpha-0
 $ sudo yum -y libjpeg-dev libpng12-dev
-
+# Qtを使用して画像の可視化
 $ luarocks install qtlua
 $ luarocks install qttorch
 $ which qlua
@@ -30,7 +88,12 @@ Lua 5.1 Copyright (...)
 > require('image')
 > l = image.lena()
 > image.display(l)
-> 
+# utility関数用のライブラリをインストール
+$ luarocks install penlight  # 1.5.4-1  for file io
+$ luarocks install fun  # 0.1.3-1  for high order functions
+$ luarocks install dkjson  # 2.5-2  json parser
+$ luarocks install lpeg  # 1.0.1-1  dkjson dependencies
+$ luarocks install luacheck  # 0.20.0-1  lint tool
 ```
 
 
