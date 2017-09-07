@@ -9,6 +9,149 @@ comments: true
 次に投稿できるようにネタだけ置いておく場所
 
 
+## 気になるブログメモ
+
+- [linuxと暮らす](http://linux.just4fun.biz/): linux, windowsから暗号通貨まで様々なコンテンツについて情報をメモしているサイト。
+
+
+
+## busted  --  Lua unit testing tool.
+
+[Olivine-Labs/busted](https://github.com/Olivine-Labs/busted)
+
+
+## mutexとは
+
+[「分かりそう」で「分からない」でも「分かった」気になれるIT用語辞典イメージぴよ画像「分かりそう」で「分からない」でも「分かった」気になれるIT用語辞典  -- mutex](http://wa3.i-3-i.info/word13360.html)
+いつも忘れる
+
+
+
+## mohikanのapps-infraチャンネル
+> lsyncd+unisonについて (サーバー・クライアント間同期)
+
+> vultrも結構便利。ローカルネットワークとかセキュリティグループとかあって、簡易クラウド的な使い方が出来る。
+vultrとconohaは価格的にも機能的にも大体同じくらいだな (edited)
+イメージ的には、日本regionがあるdigitaloceanみたいなかんじ
+
+[ほほほのほ acme-client](https://www.seirios.org/seirios/dokuwiki/doku.php?id=networkapp:acme-client#acme-client)  
+↑mohikanのserios氏のブログ
+
+> `last`コマンドについて
+
+> `systemd-analyze blame`
+
+
+## timeコマンドってどこに出力してるの？
+
+```sh
+$ time grep -r foo etc 1>/dev/null
+
+real	0m0.032s
+user	0m0.017s
+sys	0m0.015s
+$ time grep -r foo etc 2>/dev/null
+...
+
+real	0m0.032s
+user	0m0.017s
+sys	0m0.015s
+```
+
+
+## git credential helperを設定してrecursiveなリポジトリにいちいちパスを聞かれないようにする
+
+```sh
+git config credential.helper 'cache --timeout=300'
+```
+
+gitconfigファイルの書き方も調べて記述する
+
+
+## サーバー環境でもgit diffを見やすくしたい -- git difftool
+
+[git difftool --dir-diff が便利すぎて泣きそうです](http://tech.nitoyon.com/ja/blog/2013/07/02/git-dir-diff/)
+
+`tig`使えばいいじゃん、という感じではあるが、difftoolならgit入れたときに一緒に入ってくるやつだから余計なインストールしなくて済む。
+上の記事見て、もうちょい使い方を勉強したほうがいいかも。
+
+
+## grepってcache使ってる？
+
+```sh
+$ du -ms
+30108	.
+$ time grep -r foo * 1>/dev/null
+
+real	1m30.188s
+user	0m3.571s
+sys	0m4.854s
+$ time grep -r foo * 1>/dev/null
+
+real	0m3.661s
+user	0m2.331s
+sys	0m1.327s
+$ sudo bash -c "sync; echo 3 > /proc/sys/vm/drop_caches"
+$ time grep -r foo * 1>/dev/null
+
+real	1m30.504s
+user	0m3.573s
+sys	0m5.035s
+```
+
+[Does grep use a cache to speed up the searches?](https://unix.stackexchange.com/questions/8914/does-grep-use-a-cache-to-speed-up-the-searches)
+↑  
+同じこと考えてる人いた。grepがcache使ってるんじゃなくて、filesystem側が操作されたディレクトリをon memoryにしており、grepはまずmemory側を見るので
+file I/O分 (？) 速くなるようだ。
+
+実行時間計測してみる
+
+[Documentation for /proc/sys/vm/\* kernel version 2.6.29](https://www.kernel.org/doc/Documentation/sysctl/vm.txt)
+
+drop_cachesってなんだ．．
+```txt
+drop_caches
+
+Writing to this will cause the kernel to drop clean caches, as well as
+reclaimable slab objects like dentries and inodes.  Once dropped, their
+memory becomes free.
+
+To free pagecache:
+	echo 1 > /proc/sys/vm/drop_caches
+To free reclaimable slab objects (includes dentries and inodes):
+	echo 2 > /proc/sys/vm/drop_caches
+To free slab objects and pagecache:
+	echo 3 > /proc/sys/vm/drop_caches
+
+This is a non-destructive operation and will not free any dirty objects.
+To increase the number of objects freed by this operation, the user may run
+`sync' prior to writing to /proc/sys/vm/drop_caches.  This will minimize the
+number of dirty objects on the system and create more candidates to be
+dropped.
+
+This file is not a means to control the growth of the various kernel caches
+(inodes, dentries, pagecache, etc...)  These objects are automatically
+reclaimed by the kernel when memory is needed elsewhere on the system.
+
+Use of this file can cause performance problems.  Since it discards cached
+objects, it may cost a significant amount of I/O and CPU to recreate the
+dropped objects, especially if they were under heavy use.  Because of this,
+use outside of a testing or debugging environment is not recommended.
+
+You may see informational messages in your kernel log when this file is
+used:
+
+	cat (1234): drop_caches: 3
+
+These are informational only.  They do not mean that anything is wrong
+with your system.  To disable them, echo 4 (bit 3) into drop_caches.
+```
+
+[How do i view / enable kernel logs on centos / red hat linux?](https://serverfault.com/questions/308897/how-do-i-view-enable-kernel-logs-on-centos-red-hat-linux?newreg=e49de168cccf468d97fe423cf2a9dd69)  
+↑  
+kernel logを見ようと思ったけどcentos/7でどこ見ればいいかわからなかったのでメモ．
+
+
 ## bashのReadlineでもキーボードマクロが使える
 
 [The GNU Readline Library](http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html)
@@ -73,7 +216,7 @@ findの時点とsaveの時点でセッションが違うと、システムが責
 
 
 
-## torch image inastall
+## torch image install
 
 ```sh
 $ luarocks install image  # 1.1.alpha-0
@@ -94,6 +237,7 @@ $ luarocks install fun  # 0.1.3-1  for high order functions
 $ luarocks install dkjson  # 2.5-2  json parser
 $ luarocks install lpeg  # 1.0.1-1  dkjson dependencies
 $ luarocks install luacheck  # 0.20.0-1  lint tool
+$ luarocks install argparse  # 0.5.0-1  command line argument parser
 ```
 
 
@@ -272,6 +416,55 @@ $ echo ${#array}
 ```
 
 [2.5.2 Special Parameters](http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_05_02)
+
+```
+   Special Parameters
+       The shell treats several parameters specially.  These parameters  may
+       only be referenced; assignment to them is not allowed.
+       *      Expands to the positional parameters, starting from one.  When
+              the expansion occurs within double quotes,  it  expands  to  a
+              single  word with the value of each parameter separated by the
+              first character of the IFS special variable.  That is, "$*" is
+              equivalent  to  "$1c$2c...", where c is the first character of
+              the value of the IFS variable.  If IFS is unset,  the  parame‐
+              ters  are separated by spaces.  If IFS is null, the parameters
+              are joined without intervening separators.
+       @      Expands to the positional parameters, starting from one.  When
+              the  expansion  occurs  within  double  quotes, each parameter
+              expands to a separate word.  That is, "$@"  is  equivalent  to
+              "$1"  "$2" ...  If the double-quoted expansion occurs within a
+              word, the expansion of the first parameter is joined with  the
+              beginning  part of the original word, and the expansion of the
+              last parameter is joined with the last part  of  the  original
+              word.   When  there  are no positional parameters, "$@" and $@
+              expand to nothing (i.e., they are removed).
+       #      Expands to the number of positional parameters in decimal.
+       ?      Expands to the exit status of the most recently executed fore‐
+              ground pipeline.
+       -      Expands  to the current option flags as specified upon invoca‐
+              tion, by the set builtin command, or those set  by  the  shell
+              itself (such as the -i option).
+       $      Expands  to the process ID of the shell.  In a () subshell, it
+              expands to the process ID of the current shell, not  the  sub‐
+              shell.
+       !      Expands  to the process ID of the most recently executed back‐
+              ground (asynchronous) command.
+       0      Expands to the name of the shell or shell script.  This is set
+              at  shell  initialization.   If bash is invoked with a file of
+              commands, $0 is set to the name of  that  file.   If  bash  is
+              started  with the -c option, then $0 is set to the first argu‐
+              ment after the string to be executed, if one is present.  Oth‐
+              erwise,  it  is  set  to the file name used to invoke bash, as
+              given by argument zero.
+       _      At shell startup, set to the absolute pathname used to  invoke
+              the  shell  or  shell  script  being executed as passed in the
+              environment or argument list.  Subsequently,  expands  to  the
+              last  argument to the previous command, after expansion.  Also
+              set to the full pathname used to invoke each command  executed
+              and  placed in the environment exported to that command.  When
+              checking mail, this parameter holds the name of the mail  file
+              currently being checked.
+```
 
 
 ## shellのbuilt-in commandのmanを見るには
@@ -806,10 +999,10 @@ certificateの作り方など書いてある。
 - pythonのEllipsis, NotImplementedの定数について [3. Built-in Constants](https://docs.python.org/3/library/constants.html)
 
 - kernelとuserlandについて
-[What's the difference of the Userland vs the Kernel? \[duplicate\]](https://unix.stackexchange.com/questions/137820/whats-the-difference-of-the-userland-vs-the-kernel)
+[What\'s the difference of the Userland vs the Kernel? \[duplicate\]](https://unix.stackexchange.com/questions/137820/whats-the-difference-of-the-userland-vs-the-kernel)
 > userland is what the daemon does (or can do) when interacting with the operating systems ressouces (I/O, network, memory, cpu time). Those ressources are hidden from the process in the kernel space.
 
 
 - centosでgdbを使うときは`debuginfo-install glibc libgcc libstdc++`をする必要がある [issing separate debuginfos, use: debuginfo-install glibc-2.12-1.47.el6_2.9.i686 libgcc-4.4.6-3.el6.i686 libstdc++-4.4.6-3.el6.i686](https://stackoverflow.com/questions/10389988/missing-separate-debuginfos-use-debuginfo-install-glibc-2-12-1-47-el6-2-9-i686)
 
-
+- [go fundme](https://www.gofundme.com/) 個人への寄付をするサイト
