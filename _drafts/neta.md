@@ -9,6 +9,58 @@ comments: true
 次に投稿できるようにネタだけ置いておく場所
 
 
+## redirectについて
+[What does the ampersand indicate in this bash command 1>&2](https://stackoverflow.com/questions/2341023/what-does-the-ampersand-indicate-in-this-bash-command-12)
+
+ここの回答で面白い例があった．
+
+```sh
+$ { time echo hoge; } > file.txt 2>&1 > file2.txt
+$ cat file.txt
+
+real	0m0.000s
+user	0m0.000s
+sys	0m0.000s
+$ cat file2.txt
+hoge
+```
+
+> 2>&1 redirects standard error (file handle 2) to the same file that standard output (file handle 1) is currently going to.
+>
+> It's also a position-dependent thing so:
+>
+> ```sh
+> prog >x 2>&1 >y
+> ```
+>
+> will actually send standard error to x and standard output to y as follows:
+>
+> Connect standard output to x;
+> Then connect standard error to same as current standard output, which is x;
+> Then connect standard output to y;
+
+
+
+## `command 1>a.txt 2>a.txt`が上手くいかない理由は？
+
+
+## 09/08/17の気になった内容
+#### leakyreluとは？reluとなんか違う？
+[What is the difference between LeakyReLU and PReLU?](https://datascience.stackexchange.com/questions/18583/what-is-the-difference-between-leakyrelu-and-prelu)  
+> Leaky ReLUs allow a small, non-zero gradient when the unit is not active
+Parametric ReLUs take this idea further by making the coefficient of leakage into a parameter that is learned along with the other neural network parameters
+
+#### SpatialFullConvolution vs SpatialConvolution
+[SpatialFullConvolution vs SpatialConvolution](https://groups.google.com/forum/#!topic/torch7/upg9CV05EBk)
+
+SpatialFullConvolutionは自己符号化のときに使われるようだ。。入力のサイズを下げないということ？  
+SpatialFullConvolutionはupsampling, SpatialConvolutionはdownsamplingだと言っている。
+
+#### wheelとanacondaの関係について
+[wheelのありがたさとAnacondaへの要望](http://ymotongpoo.hatenablog.com/entry/2017/02/02/182647)
+
+
+
 ## 気になるブログメモ
 
 - [linuxと暮らす](http://linux.just4fun.biz/): linux, windowsから暗号通貨まで様々なコンテンツについて情報をメモしているサイト。
@@ -41,21 +93,12 @@ vultrとconohaは価格的にも機能的にも大体同じくらいだな (edit
 
 > `systemd-analyze blame`
 
-
-## timeコマンドってどこに出力してるの？
+## bashコマンド知らなかったやつ
+- `mkfifo`
+- `exec` (builtin) [How to redirect an output file descriptor of a subshell to an input file descriptor in the parent shell?](https://stackoverflow.com/questions/15153158/how-to-redirect-an-output-file-descriptor-of-a-subshell-to-an-input-file-descrip)
 
 ```sh
-$ time grep -r foo etc 1>/dev/null
-
-real	0m0.032s
-user	0m0.017s
-sys	0m0.015s
-$ time grep -r foo etc 2>/dev/null
-...
-
-real	0m0.032s
-user	0m0.017s
-sys	0m0.015s
+$ exec 3>&1  # 何してる？
 ```
 
 
