@@ -9,39 +9,55 @@ comments: true
 次に投稿できるようにネタだけ置いておく場所
 
 
-## redirectについて
-[What does the ampersand indicate in this bash command 1>&2](https://stackoverflow.com/questions/2341023/what-does-the-ampersand-indicate-in-this-bash-command-12)
+## [mac]Option-Shift-Command-Vでstyleを貼り付け先に合わせてペーストする
 
-ここの回答で面白い例があった．
+[Take Control of Your Mac's Clipboard](https://computers.tutsplus.com/tutorials/take-control-of-your-macs-clipboard--mac-30472)
+
+リンク先にも書いてあるが、指がつる。styleを保持したままペーストする方が珍しい気がするので、ショートカットを変更した方がいいかも。
+
+
+
+## luaについてまとめ
+
+[Patterns Tutorial](http://lua-users.org/wiki/PatternsTutorial)
+> Limitations of Lua patterns
+>
+> Especially if you're used to other languages with regular expressions, you might expect to be able to do stuff like this:
+>
+> '(foo)+' -- match the string "foo" repeated one or more times
+> '(foo|bar)' -- match either the string "foo" or the string "bar"
+> Unfortunately Lua patterns do not support this, only single characters can be repeated or chosen between, not sub-patterns or strings. The solution is to either use multiple patterns and write some custom logic, use a regular expression library like lrexlib or Lua PCRE, or use LPeg [3]. LPeg is a powerful text parsing library for Lua based on Parsing Expression Grammar [4]. It offers functions to create and combine patterns in Lua code, and also a language somewhat like Lua patterns or regular expressions to conveniently create small parsers.
+
+[Lpeg Tutorial](http://lua-users.org/wiki/LpegTutorial)
+> f'x' is equivalent to f('x') in Lua; using single quotes has the same meaning as double quotes
+
+
+## 標準出力と標準エラー出力の入れ替え
+
+I try to swap stdout and stderr.  
+By using `{}`, I successed to gain output what I want. But I do know why not using `{}` version's output is not swapped.
 
 ```sh
-$ { time echo hoge; } > file.txt 2>&1 > file2.txt
-$ cat file.txt
+$ { echo stdout; echo stderr 1>&2; } 3>&1 1>&2 2>&3 1>1.txt 2>2.txt;
+$ cat 1.txt
+stdout
+$ cat 2.txt
+stderr
 
-real	0m0.000s
-user	0m0.000s
-sys	0m0.000s
-$ cat file2.txt
-hoge
+$ { { echo stdout; echo stderr 1>&2; } 3>&1 1>&2 2>&3; } 1>1.txt 2>2.txt;
+$ cat 1.txt
+stderr
+$ cat 2.txt
+stdout
 ```
 
-> 2>&1 redirects standard error (file handle 2) to the same file that standard output (file handle 1) is currently going to.
->
-> It's also a position-dependent thing so:
->
-> ```sh
-> prog >x 2>&1 >y
-> ```
->
-> will actually send standard error to x and standard output to y as follows:
->
-> Connect standard output to x;
-> Then connect standard error to same as current standard output, which is x;
-> Then connect standard output to y;
+なぜ`{}`のありなしで結果に違いが出る？？理由がわからない．
 
 
 
-## `command 1>a.txt 2>a.txt`が上手くいかない理由は？
+[DUP](http://man7.org/linux/man-pages/man2/dup.2.html)  
+DUPについてのmanページ．
+
 
 
 ## 09/08/17の気になった内容
