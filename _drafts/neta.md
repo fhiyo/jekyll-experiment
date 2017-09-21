@@ -9,6 +9,141 @@ comments: true
 次に投稿できるようにネタだけ置いておく場所
 
 
+## bundle exec jekyll serveが動かなくなった
+
+centos/7でやったこと
+
+```sh
+$ sudo yum -y install lapack-devel
+$ sudo yum -y install gem
+$ gem install bundler
+$ cd my-blog-site
+$ bundle install
+$ bundle exec jekyll serve --host=0.0.0.0
+```
+
+
+
+## source commandは現在のシェルで実行される
+
+なので，シェルの環境変数を変更することができる．
+
+```sh
+$ cat test.sh
+myVariable=foo
+$ unset myVariable; source test.sh; echo ${myVariable:-null}
+foo
+$ unset myVariable; bash -s < test.sh; echo ${myVariable:-null}
+null
+```
+[Using source vs bash commands](https://askubuntu.com/questions/306523/using-source-vs-bash-commands)
+
+
+## bash scriptがいる場所を取得する
+
+[The Right Way to Get the Directory of a bash Script](http://www.ostricher.com/2014/10/the-right-way-to-get-the-directory-of-a-bash-script/)
+
+3つ目の例は"[[ hoge ]]"を使ってるからbash専用になるが，これはできればやめたいなぁ．．  
+2つ目は"`DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"`"は例のやつなので覚えておく．
+
+↑これに関連して，  
+
+`pwd -L`と`pwd -P`の違いを見ておきたい．`readlink`してsymbolic linkを解決する際に必要なテクニックなはず．
+
+python使って，`realpath="python -c 'import os, sys; print os.path.realpath(sys.argv[1])'"`でもいいし，  
+perl使って，`perl -MCwd -e 'print Cwd::abs_path shift' ~/non-absolute/file`
+
+でもよさそうだ．
+
+
+## gitコマンド
+
+[torvalds/linux V3s #462](https://github.com/torvalds/linux/pull/462)
+
+```sh
+git send-email
+git format-patch
+```
+
+
+## 怠惰な Linux: 管理者に必須の 10 の秘訣
+
+[怠惰な Linux: 管理者に必須の 10 の秘訣](https://www.ibm.com/developerworks/jp/linux/library/l-10sysadtips/index.html)
+
+
+
+## KeyCast  --  Record key stroke for screencast
+
+[KeyCast](https://github.com/cho45/KeyCast)
+
+
+## goの書き方、環境の整え方
+
+[How to Write Go Code](https://golang.org/doc/code.html)
+
+[goのrepl - gore](http://motemen.hatenablog.com/entry/2015/02/go-repl-gore)
+
+
+
+## cygwinでXを起動
+
+参考: http://qiita.com/mansonsp/items/1c52668b2f46002a754c
+
+### 環境構築
+1. cygwinのsetup-x86_64.exeを起動して、以下のコマンドをインストールする。
+- xorg-server
+- xinit
+- openssh
+
+2. C:\Users\username\AppData\Roaming\Microsoft\Windows\Start
+Menu\Programs\Cygwin-X
+のXWin Serverのプロパティを開き、リンク先を書き換える。
+変更前:
+C:\cygwin64\bin\run.exe --quote /usr/bin/bash.exe -l -c "cd; exec /usr/bin/startxwin"
+変更後:
+C:\cygwin64\bin\run.exe --quote /usr/bin/bash.exe -l -c "cd; /usr/bin/Xwin.exe :0 -multiwindow -listen tcp"
+
+3. ~/.bashrcに以下の記述を追加する。
+
+```sh
+if [ -z "{$DISPLAY}" ]; then
+export DISPLAY='localhost:0.0
+fi
+```
+
+4. 以下のコマンドを実行する。
+
+$ source ~/.bashrc
+
+### 接続方法
+1. C:\Users\username\AppData\Roaming\Microsoft\Windows\Start
+Menu\Programs\Cygwin-X\XWin Server.lnk
+を実行する。
+2. 以下のコマンドを実行する。
+$ ssh -Y hostname@servername
+で接続する。以下のコマンドでX Windowが正常に動作しているかを確認する。
+$ xeyes
+
+
+
+## goでwebスクレイピングを作る、を見て真似するだけ
+
+```sh
+# go1.9のインストール
+$ curl -LO https://storage.googleapis.com/golang/go1.9.linux-amd64.tar.gz
+$ sudo yum install -y perl-Digest-SHA
+$ shasum -a 256 go1.9*.tar.gz
+d70eadefce8e160638a9a6db97f7192d8463069ab33138893ad3bf31b0650a79  go1.9.linux-amd64.tar.gz
+# このハッシュ値と`https://golang.org/dl`に書いてあるハッシュ値が一致していればOK
+$ sudo tar -C /usr/local -xvzf go1.9.linux-amd64.tar.gz
+$ vim ~/.bashrc
+# export PATH=$PATH:/usr/local/go/bin の文の付け加える
+$ source ~/.bashrc
+$ go get -d 'github.com/PuerkitoBio/goquery'  # 依存ライブラリのインストール
+$ go run main.go
+```
+
+
 ## [mac]Option-Shift-Command-Vでstyleを貼り付け先に合わせてペーストする
 
 [Take Control of Your Mac's Clipboard](https://computers.tutsplus.com/tutorials/take-control-of-your-macs-clipboard--mac-30472)
@@ -82,7 +217,6 @@ SpatialFullConvolutionはupsampling, SpatialConvolutionはdownsamplingだと言�
 - [linuxと暮らす](http://linux.just4fun.biz/): linux, windowsから暗号通貨まで様々なコンテンツについて情報をメモしているサイト。
 
 
-
 ## busted  --  Lua unit testing tool.
 
 [Olivine-Labs/busted](https://github.com/Olivine-Labs/busted)
@@ -92,6 +226,35 @@ SpatialFullConvolutionはupsampling, SpatialConvolutionはdownsamplingだと言�
 
 [「分かりそう」で「分からない」でも「分かった」気になれるIT用語辞典イメージぴよ画像「分かりそう」で「分からない」でも「分かった」気になれるIT用語辞典  -- mutex](http://wa3.i-3-i.info/word13360.html)
 いつも忘れる
+
+[Difference between binary semaphore and mutex](https://stackoverflow.com/questions/62814/difference-between-binary-semaphore-and-mutex)
+> the problem is with the statement that says "A mutex is really a semaphore with value 1" but that is not the case. ThreadA and only ThreadA can increment (and hence release) the mutex that it decremented whereas ThreadB can increment the binSemaphore decremented by ThreadA, which also happens to be the answer to the question in question.
+
+binary semaphoreとmutexの違いは何なのか．上の引用では，binary semaphoreはsemphoreを取ったthread以外のthreadでもsemaphoreの値を戻すことができるが，mutexはmutexを取ったthreadしか元に戻せない．
+
+Toilet exampleは間違っているようだ．わかりやすい例えだと思ったが，本質が違うらしい．
+
+[Mutex vs. Semaphores – Part 2: The Mutex](https://blog.feabhas.com/2009/09/mutex-vs-semaphores-%E2%80%93-part-2-the-mutex/)
+> The concept of ownership enables mutex implementations to address the problems discussed in part 1:
+>
+> Accidental release
+> Recursive deadlock
+> Task-Death deadlock
+> Priority inversion
+> Semaphore as a signal
+
+> Mutual Exclusion / Synchronisation
+Due to ownership a mutex cannot be used for synchronization due to lock/unlock pairing. This makes the code cleaner by not confusing the issues of mutual exclusion with synchronization.
+
+どうもsemaphoreは同期を取るために使うらしい．一方mutexは排他制御．自分以外は俺が解放するまでこのリソースに触るな，といっている (気がする)．  
+semaphoreはタスクAがsemaphoreを取ってpending状態になり，タスクBがsemaphoreを与えてAのpending状態から次に進むよう制御する，という感じか？？
+
+
+3つ以上のsemaphoreで同期を取るやり方がよくわからん．
+
+semaphoreの使い所でググればいいのか？
+
+[ファイヤープロジェクト セマフォ](http://www.fireproject.jp/feature/c-language/ipc/semaphore.html)
 
 
 
@@ -116,6 +279,58 @@ vultrとconohaは価格的にも機能的にも大体同じくらいだな (edit
 ```sh
 $ exec 3>&1  # 何してる？
 ```
+
+`info bash`の3.6.10
+3.6.10 Opening File Descriptors for Reading and Writing
+
+The redirection operator
+
+[n]<>word
+causes the file whose name is the expansion of word to be opened for both reading and writing on file descriptor n, or on file descriptor 0 if n is not specified. If the file does not exist, it is created.
+
+`<>`は`mkfifo`と似たやつなのだろうか？？
+
+```sh
+$ cat myfile.txt
+line1
+line2
+line3
+line4
+$ cat <&3
+line1
+line2
+line3
+line4
+$ cat <&3
+$ cat <&3
+$ echo -e "line1\nline2\nline3\nline4" >&3
+$ cat <&3
+$ cat <&3
+$ rm myfile.txt
+$ echo -e "line1\nline2\nline3\nline4" > myfile.txt
+$ exec 3<> myfile.txt
+$ echo -e "LINE1\nLINE2" >&3
+$ cat <&3
+line3
+line4
+```
+
+```sh
+$ cat foo.txt
+line1
+line2
+line3
+line4
+$ echo -e "LINE1\nLINE2" 1<>foo.txt
+$ cat foo.txt
+LINE1
+LINE2
+line3
+line4
+```
+面白い．
+[How does cat \<\> file work?  Answer](https://unix.stackexchange.com/questions/164391/how-does-cat-file-work/164449#164449)
+
 
 
 ## git credential helperを設定してrecursiveなリポジトリにいちいちパスを聞かれないようにする
@@ -270,7 +485,7 @@ findの時点とsaveの時点でセッションが違うと、システムが責
 
 
 ## ovirt
-[oVirt](http://searchservervirtualization.techtarget.com/definition/oVirt)
+[oVirt](http://searchservervirtualization.techtarget.com/definition/oVirt)  
 何か公式のページの証明書がエラーになってて警告が出たから見てない．．
 
 
@@ -769,10 +984,14 @@ $ gem install nokogiri  # Success!
 [Covariance, Invariance and Contravariance explained in plain English?](https://stackoverflow.com/questions/8481301/covariance-invariance-and-contravariance-explained-in-plain-english)
 
 
-## lsの代わりにexaコマンド、progressコマンドでcpなどの進捗を表示
+## linux cui コマンド
+lsの代わりにexaコマンド、progressコマンドでcpなどの進捗を表示
 
 [Linuxメモ : 「exa」Rustで書かれたカラフルなls代替コマンドを試す](http://wonderwall.hatenablog.com/entry/2017/08/07/222350)
 [Linuxメモ : progressでLinuxコマンド(cp, mv, dd, tar, cat…)の進捗を表示](http://wonderwall.hatenablog.com/entry/2017/08/04/073000)
+
+pexpect: [Pexpect version 4.2](https://pexpect.readthedocs.io/en/stable/)  
+expectコマンドの代わりの使いやすいやつ？
 
 
 ## x11でec2インスタンスに接続
@@ -1064,4 +1283,8 @@ certificateの作り方など書いてある。
 
 - centosでgdbを使うときは`debuginfo-install glibc libgcc libstdc++`をする必要がある [issing separate debuginfos, use: debuginfo-install glibc-2.12-1.47.el6_2.9.i686 libgcc-4.4.6-3.el6.i686 libstdc++-4.4.6-3.el6.i686](https://stackoverflow.com/questions/10389988/missing-separate-debuginfos-use-debuginfo-install-glibc-2-12-1-47-el6-2-9-i686)
 
-- [go fundme](https://www.gofundme.com/) 個人への寄付をするサイト
+- [go fundme](https://www.gofundme.com/)  個人への寄付をするサイト
+
+- [valu](https://valu.is/)  個人へ株式投資のようにお金を投資するサイト
+
+- [Wifi Widget - See, Test, and Share Wi-Fi](https://itunes.apple.com/us/app/wifi-widget-see-test-and-share-wi-fi/id1192965614?mt=8)  wifi管理の自動化？iPhoneアプリ
