@@ -1,12 +1,12 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
 gem 'rake'
 # gem 'jekyll', :git => 'https://github.com/mojombo/jekyll.git'
 
-gem 'jekyll', "~> 3.4.5"
+gem 'jekyll'
 
 group :jekyll_plugins do
-  gem "jekyll-feed", "~> 0.6"
+  gem "jekyll-feed"
   gem "jekyll-paginate"
   gem "classifier-reborn"
 end
