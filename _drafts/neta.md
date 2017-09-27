@@ -9,19 +9,66 @@ comments: true
 次に投稿できるようにネタだけ置いておく場所
 
 
-## bundle exec jekyll serveが動かなくなった
+## unixコマンドツール色々よいもの揃えてる
+[日常から使えるUnix系OS業務効率up技](https://qiita.com/onokatio/items/50fb616f71bf3c5021b9)
 
-centos/7でやったこと
 
-```sh
-$ sudo yum -y install lapack-devel
-$ sudo yum -y install gem
-$ gem install bundler
-$ cd my-blog-site
-$ bundle install
-$ bundle exec jekyll serve --host=0.0.0.0
+
+## 技術トレンドを調べるのに良い記事
+
+[TECHNOLOGY RADAR VOL.16](https://www.thoughtworks.com/radar)
+
+Slackのmohikanz #-generalより．
+>lee [10:41 AM]
+https://www.thoughtworks.com/radar
+和田さん講演会で聞いた技術トレンド分析？的なもの
+テクニック・ツール・プラットフォーム・言語&フレームワークに分けて
+Adopt(採用でいい)/Trial(試してみ)/Assess(もっと調べて)/Hold(待て)で評価してる感じです。
+Ansibleが2014に彗星のごとく現れて次の連載で即Adoptされてたのがすごい
+
+
+
+## 配列の初期値を宣言する場合と後で代入する場合の違い
+
+```c
+char a[3] = {1, 2, 3};
 ```
 
+と
+
+```c
+char a[3];
+a[0] = 1;
+a[1] = 2;
+a[2] = 3;
+```
+
+は挙動が異なる．何が違うかというと，OS自作入門のp.86を参照．
+
+アセンブリ言語に直してみる．  
+前者がdb命令で直接メモリに値を書き込むのに対して，  
+後者は`a[3]`分の領域を一度確保してからmov命令で1つずつ値を代入している．  
+後者の方が無駄な命令に使うメモリが大きくなる．
+
+
+
+
+## ADS (代替ストリーム) について
+[代替データストリーム（ADS）について色々調べてみた](https://qiita.com/minr/items/c2393f532b2df35f7a9d)
+
+
+
+## pythonのUnitTestによる大量のテストの書き方
+[Python の 単体テストで 大量の入力パターンを効率よくテストする方法](https://qiita.com/Asayu123/items/61ef72bb829dd8baba9f)  
+> Subtestを用いると、途中で失敗するパターンがあっても、テストを最後まで実行し、成否をパターン毎に個別に出力してくれるようになります。
+> これは、Parameterized Testと呼ばれる手法の１つで、 **Python Parameterized test** などで検索すると、他のテストランナーでの手法も見つかります。
+
+
+
+## putenv()とsetenv()について
+[putenv() and setenv()](https://www.greenend.org.uk/rjk/tech/putenv.html)
+
+メモリリークの危険がある話だが，結局何なのかはよくわからん．．
 
 
 ## source commandは現在のシェルで実行される
@@ -780,14 +827,6 @@ end
 ```
 
 ではipが振られていなかった．なぜ？Vagrant側に問い合わせるか，ソースコード読んで解析したい．．．
-
-
-
-## /usr/bin/envの復習
-
-[What type of path in shebang is more preferable?](https://askubuntu.com/questions/88257/what-type-of-path-in-shebang-is-more-preferable)
-`/usr/bin/env python`は`${PATH}`を頭から順に見ていき，`python`を発見したところでそれを実行するようだ．
-
 
 
 
