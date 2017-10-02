@@ -9,6 +9,61 @@ comments: true
 次に投稿できるようにネタだけ置いておく場所
 
 
+## gitignoreに拡張子なしのファイルを登録する
+[How do I add files without dots in them (all extension-less files) to the gitignore file?](https://stackoverflow.com/questions/19023550/how-do-i-add-files-without-dots-in-them-all-extension-less-files-to-the-gitign)
+
+```
+*
+!/**/
+!*.*
+```
+
+ただし，先頭に加えないと動作しない (後勝ちなのでこのルールで前のルールが全て無効になってしまう)
+
+
+
+## vim-easy-alignで正規表現が使える
+
+gaで入った後ctrl + xで．
+[vim-easy-align](https://github.com/junegunn/vim-easy-align)
+
+
+
+## bash [ vs [[
+[What's the difference between [ and [[ in Bash?](https://stackoverflow.com/questions/3427872/whats-the-difference-between-and-in-bash)
+
+
+## ${arr[@]} vs ${arr} vs ${arr[\*]}
+
+[A confusion about ${array[\*]} versus ${array[@]} in the context of a Bash completion](https://stackoverflow.com/questions/3348443/a-confusion-about-array-versus-array-in-the-context-of-a-bash-comple/)
+
+↑  
+`${arr[@]}`と`${arr[*]}`の違いについて解説している．
+
+
+[Check if a Bash array contains a value](https://stackoverflow.com/questions/3685970/check-if-a-bash-array-contains-a-value)
+>I just have to remember to pass the array as with quotes: "${array[@]}". Otherwise elements containing spaces will break functionality.
+
+
+
+## シェルスクリプトのサイト
+[UEC - usp engineers' community site](https://uec.usp-lab.com/TOP/CGI/TOP.CGI)
+
+
+
+## 絶対に忘れてはいけない言葉
+[高校生にWeb上でプログラミングを教え始めたエンジニアがこの8ヶ月間で得た気づき](https://qiita.com/sifue/items/7e7c7867b64ce9742aee?utm_source=Qiita%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%B9&utm_campaign=d98df52469-Qiita_newsletter_273_09_20_2017&utm_medium=email&utm_term=0_e44feaa081-d98df52469-33372373)
+
+>**FizzBuzzやフィボナッチ数列を異なるアルゴリズム1で3種類書いてくれと言われたときに、ホワイトボードにさらさらと書けるようになる。ちゃんとコードを書いてきたプログラマーであれば造作もないことだと思います。**
+
+
+
+## プロジェクト管理の粒度は細かいほうがよい
+[プロジェクトの残業を50%削減したタスク管理手法を惜しみなく公開する](https://qiita.com/0w0/items/0b287be30af6539ac5e9?utm_source=Qiita%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%B9&utm_campaign=d98df52469-Qiita_newsletter_273_09_20_2017&utm_medium=email&utm_term=0_e44feaa081-d98df52469-33372373)  
+個人のタスク管理では当てはまらないところもあるだろうが，自分の今の状況の問題と照らし合わせて解決できる部分もあるかもしれない
+
+
+
 ## unixコマンドツール色々よいもの揃えてる
 [日常から使えるUnix系OS業務効率up技](https://qiita.com/onokatio/items/50fb616f71bf3c5021b9)
 
@@ -1036,15 +1091,15 @@ expectコマンドの代わりの使いやすいやつ？
 ## x11でec2インスタンスに接続
 
 ```sh
-sudo yum -y install xauth
-sudo yum -y install xterm
-sudo yum -y install xorg-x11-apps
-xeyes
+$ sudo yum -y install xauth
+$ sudo yum -y install xterm
+$ sudo yum -y install xorg-x11-apps
+$ xeyes
 
-sudo yum -y install pango pango-devel cairo glib2 redhat-lsb redhat-lsb-graphics libtiff libtiff-devel libjpeg-devel gcc
-sudo yum -y install eog  # 画像ファイルを見るためのアプリケーション
-sudo yum -y install firefox
-firefox  # エラーが出る
+$ sudo yum -y install pango pango-devel cairo glib2 redhat-lsb redhat-lsb-graphics libtiff libtiff-devel libjpeg-devel gcc
+$ sudo yum -y install eog  # 画像ファイルを見るためのアプリケーション
+$ sudo yum -y install firefox
+$ firefox  # エラーが出る
 ```
 
 - https://blog.masu-mi.me/2015/01/10/use_firefox.html
