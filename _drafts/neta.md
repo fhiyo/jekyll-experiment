@@ -9,17 +9,38 @@ comments: true
 次に投稿できるようにネタだけ置いておく場所
 
 
-## gitignoreに拡張子なしのファイルを登録する
-[How do I add files without dots in them (all extension-less files) to the gitignore file?](https://stackoverflow.com/questions/19023550/how-do-i-add-files-without-dots-in-them-all-extension-less-files-to-the-gitign)
+## 脆弱性関連でOSSに対してコミットした方法
+[Ruby の脆弱性を見つけた話](http://techlife.cookpad.com/entry/2017/10/04/181946)  
+手順が書かれている．過去の脆弱性を見てどこで修正が加えられているかを確認．
 
+
+
+## python3のlistに対する掛け算はshallow copy?
+
+```python3
+>>> l_ = [[False] * 2] * 3
+>>> l_
+[[False, False], [False, False], [False, False]]
+>>> l_[1][1] = True
+>>> l_
+[[False, True], [False, True], [False, True]]
 ```
-*
-!/**/
-!*.*
+
+
+## `local readonly foo=f`は多分間違いの構文
+
+[Local and readonly variables in shells](https://gist.github.com/weakish/836753#file-wrong-sh)
+
+`readonly`と`foo`の2つの変数をlocalスコープで宣言している．localスコープで書き換え禁止の変数を宣言したければ，
+
+```sh
+f() {
+  local x
+  readonly x='f'
+}
 ```
 
-ただし，先頭に加えないと動作しない (後勝ちなのでこのルールで前のルールが全て無効になってしまう)
-
+のように分けて記述する．
 
 
 ## vim-easy-alignで正規表現が使える
@@ -1367,6 +1388,10 @@ certificateの作り方など書いてある。
 % codesign -s gdb-cert /usr/local/bin/gdb
 
 
+## upstreamのいう名前でfork元をaddしておけば追従できる
+で，普通にfetch & mergeすればOK.
+
+
 
 - pythonのEllipsis, NotImplementedの定数について [3. Built-in Constants](https://docs.python.org/3/library/constants.html)
 
@@ -1374,11 +1399,12 @@ certificateの作り方など書いてある。
 [What\'s the difference of the Userland vs the Kernel? \[duplicate\]](https://unix.stackexchange.com/questions/137820/whats-the-difference-of-the-userland-vs-the-kernel)
 > userland is what the daemon does (or can do) when interacting with the operating systems ressouces (I/O, network, memory, cpu time). Those ressources are hidden from the process in the kernel space.
 
-
 - centosでgdbを使うときは`debuginfo-install glibc libgcc libstdc++`をする必要がある [issing separate debuginfos, use: debuginfo-install glibc-2.12-1.47.el6_2.9.i686 libgcc-4.4.6-3.el6.i686 libstdc++-4.4.6-3.el6.i686](https://stackoverflow.com/questions/10389988/missing-separate-debuginfos-use-debuginfo-install-glibc-2-12-1-47-el6-2-9-i686)
 
 - [go fundme](https://www.gofundme.com/)  個人への寄付をするサイト
-
 - [valu](https://valu.is/)  個人へ株式投資のようにお金を投資するサイト
-
 - [Wifi Widget - See, Test, and Share Wi-Fi](https://itunes.apple.com/us/app/wifi-widget-see-test-and-share-wi-fi/id1192965614?mt=8)  wifi管理の自動化？iPhoneアプリ
+- [オレオレ証明書を使いたがる人を例を用いて説得する](https://qiita.com/Sheile/items/dc91128e8918fc823562)
+- [レビューしてもらいやすいPRの書き方](http://in.fablic.co.jp/entry/2017/10/05/090000) → [How to write the perfect pull request](https://github.com/blog/1943-how-to-write-the-perfect-pull-request)
+
+
