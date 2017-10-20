@@ -9,6 +9,87 @@ comments: true
 次に投稿できるようにネタだけ置いておく場所
 
 
+## lispで`(func foo)`がOKのとき，`(func (foo))`がダメな理由
+
+[ポーランド記法](https://ja.wikipedia.org/wiki/%E3%83%9D%E3%83%BC%E3%83%A9%E3%83%B3%E3%83%89%E8%A8%98%E6%B3%95)
+
+> ^ LISPはこのような見た目だが、LISPで括弧が必須なのはLISPの理由による。すなわち、LISPでは式を読み込む時に式の木構造を構築するのだが、括弧なしで式の木構造を構築するには、演算子を識別し、その引数の数がわかっていなければならない。しかし、読み込み時にはその文字列から演算子かどうかはわからないし、任意個の引数をとる演算子もある。このため括弧なしには木構造を構築できないので、LISPでは括弧が必須なのである。
+
+Lispは式の読み込みの際に木構造を構築して実行するから．  
+`(func foo)`はfuncの子がfooであるのに対し，  
+`(func (foo))`はfuncの子が(foo)であるため正常な実行ができない．
+
+
+
+## bashでbrace展開がされない場合
+
+```sh
+#!/usr/bin/env bash
+
+foo=xxxxxxxx
+
+printf '%.s=' {1..8}
+printf '%.s=' {1..${#foo}}
+```
+
+```sh
+$ bash -x printf_test.sh
++ foo=xxxxxxxx
++ printf %.s= 1 2 3 4 5 6 7 8
+========+ printf %.s= '{1..8}'
+=%
+```
+
+~~後半がbrace展開されてない．Stackexchengeに聞くか．~~
+↓  
+[How can I use $variable in a shell brace expansion of a sequence?](https://unix.stackexchange.com/questions/7738/how-can-i-use-variable-in-a-shell-brace-expansion-of-a-sequence)にあった．${seq $foo $bar}を使えとのこと．
+
+でも，bashのreadline上では問題なく展開されることについては言及されていなかったので聞きたいかも．
+
+↑
+
+自分が確認していた環境が違った．zshで確認していた．bashを起動して同じように`printf`したところ，やはりbrace expansionはされなかった．
+
+
+
+## bashでpadding
+[Print a character repeatedly in bash [duplicate]](https://stackoverflow.com/questions/5799303/print-a-character-repeatedly-in-bash)
+
+> There's actually a one-liner that can do this:
+>
+>     printf "%0.s-" {1..10}
+> prints
+>
+>     ----------
+> Here's the breakdown of the arguments passed to printf:
+>
+> %s - This specifies a string of any length
+> %0s - This specifies a string of zero length, but if the argument is longer it will print the whole thing
+> %0.s - This is the same as above, but the period tells printf to truncate the string if it's longer than the specified length, which is zero
+> {1..10} - This is a brace expansion that actually passes the arguments "1 2 3 4 5 6 7 8 9 10"
+> "-" - This is an extra character provided to printf, it could be anything (for a "%" you must escape it with another "%" first, i.e. "%%")
+> Lastly, The default behavior for printf if you give it more arguments than there are specified in the format string is to loop back to the beginning of the format string and run it again.
+
+
+```sh
+$ printf '%5.3s=' 1.23456 foobar
+  1.2=  foo=%
+```
+
+`1.23456`の例はいらないかも．  
+`%m.n`でm個padding, n文字表示という感じか？  
+ブログに書くときには調べておく．
+
+
+
+## `for i, v in enumerate(l)`で後でlの値を変えてもvの値は変わらない
+
+当たり前だが，ハマってしまったのできちんと書いておく．
+
+(`sys.stdin.readline()`よりも`input()`の方が楽だろうか？)
+
+
+
 ## 脆弱性関連でOSSに対してコミットした方法
 [Ruby の脆弱性を見つけた話](http://techlife.cookpad.com/entry/2017/10/04/181946)  
 手順が書かれている．過去の脆弱性を見てどこで修正が加えられているかを確認．
@@ -1406,5 +1487,3 @@ certificateの作り方など書いてある。
 - [Wifi Widget - See, Test, and Share Wi-Fi](https://itunes.apple.com/us/app/wifi-widget-see-test-and-share-wi-fi/id1192965614?mt=8)  wifi管理の自動化？iPhoneアプリ
 - [オレオレ証明書を使いたがる人を例を用いて説得する](https://qiita.com/Sheile/items/dc91128e8918fc823562)
 - [レビューしてもらいやすいPRの書き方](http://in.fablic.co.jp/entry/2017/10/05/090000) → [How to write the perfect pull request](https://github.com/blog/1943-how-to-write-the-perfect-pull-request)
-
-
