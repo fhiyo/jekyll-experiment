@@ -16,3 +16,9 @@ gem 'rdiscount'
 gem 'pygments.rb'
 gem 'RedCloth'
 gem 'liquid'
+
+# For gsl
+gem "sass"
+gem "bourbon"
+gem "neat"
+gem "rb-gsl"
