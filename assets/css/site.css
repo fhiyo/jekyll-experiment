@@ -10,6 +10,7 @@
 }
 .hero-unit header h1 {
 	margin-bottom: 0.125em;
+  background-color: #eee !important;
 }
 
 body {
