@@ -2,8 +2,8 @@
 layout: post
 date: 2017-07-10 22:57:00 +0900
 title: "google apiでwebクローラを作る"
-categories: other
-tags: google-api
+categories: [python]
+tags: [google-api]
 comments: true
 published: true
 ---
