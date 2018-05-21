@@ -79,3 +79,16 @@ $ ln -s gcc@7 gcc
 Issueが4日前に上がっていた。[LightGBM and gcc 8 in MacOS: `Library not loaded: /usr/local/opt/gcc/lib/gcc/7/libgomp.1.dylib` · Issue #1369 · Microsoft/LightGBM](https://github.com/Microsoft/LightGBM/issues/1369)
 
 PyPIの現時点の最新である2.1.1はgcc-7になっているようだが、8を使うように変更したプルリクは既に上がっているとのこと。問題が解決するまでそんなには時間かからなさそう？
+
+
+#### 追記 (2018/05/21)
+
+```sh
+$ R
+dyld: Library not loaded: /usr/local/opt/gcc/lib/gcc/8/libgfortran.5.dylib
+  Referenced from: /usr/local/Cellar/r/3.5.0_1/lib/libR.dylib
+  Reason: image not found
+zsh: abort      R
+```
+
+やっぱり他に影響があった。
